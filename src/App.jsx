@@ -1,6 +1,15 @@
 import "./App.css";
+import Footer from "./components/Footer";
+import Navbar from "./components/navbar";
+import Home from "./pages/HomePage/Home";
 
 function App() {
-  return <h1>this is the app page😶‍🌫️</h1>;
+  return (
+    <div>
+      <Navbar />
+      <Home />
+      <Footer />
+    </div>
+  );
 }
 export default App;
