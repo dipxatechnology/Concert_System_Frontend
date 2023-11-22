@@ -8,14 +8,15 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./layout.css";
 
 // Define the main component
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
-    <Flex alignItems='center' padding={"10px 50px"} className="navbar" >
+    <Flex alignItems='center' padding={"15px 50px"} className="background" >
       <Image src="src/assets/logo_dark.svg" boxSize={"60px"}/>
       <Spacer />
       <DesktopNav />
@@ -31,19 +32,20 @@ export default function Navbar() {
               fontSize={"sm"}
               fontWeight={400}
               color={"white"}
+              onClick={() => navigate('/signup')}
             >
               Sign Up
             </Button>
             <Button
-              display={{ base: "none", md: "inline-flex" }}
               fontSize={"sm"}
               fontWeight={600}
               color={"white"}
               bg={"#222222"}
               borderColor={"white"}
               borderWidth={2}
+              onClick={() => navigate('/login')}
             >
-              Sign Up
+              Log In
             </Button>
           </Stack>
     </Flex>
