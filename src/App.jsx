@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from './pages/Login'
+import SignUp from "./pages/SignUp";
 import MainLayout from "./components/Layouts";
 
 import "./App.css";
@@ -13,6 +14,7 @@ return (
     <Route path="/" element={<MainLayout />}>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/signup" element={<SignUp />} />
     </Route>
   </Routes>
 )
