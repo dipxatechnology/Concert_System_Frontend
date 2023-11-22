@@ -6,6 +6,7 @@ import {
   Stack,
   Spacer,
   Image,
+  Divider,
 } from "@chakra-ui/react";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -16,39 +17,42 @@ import "./layout.css";
 export default function Navbar() {
   const navigate = useNavigate();
   return (
-    <Flex alignItems='center' padding={"15px 50px"} className="background" >
-      <Image src="src/assets/logo_dark.svg" boxSize={"60px"}/>
-      <Spacer />
-      <DesktopNav />
-      <Spacer />
-      <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"row"}
-            spacing={6}
-          >
-            <Button
-              bg={"#222222"}
-              fontSize={"sm"}
-              fontWeight={400}
-              color={"white"}
-              onClick={() => navigate('/signup')}
+    <div style={{padding: "15px 50px"}} className="background">
+      <Flex alignItems='center'>
+        <Image src="src/assets/logo_dark.svg" boxSize={"60px"}/>
+        <Spacer />
+        <DesktopNav />
+        <Spacer />
+        <Stack
+              flex={{ base: 1, md: 0 }}
+              justify={"flex-end"}
+              direction={"row"}
+              spacing={6}
             >
-              Sign Up
-            </Button>
-            <Button
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={"#222222"}
-              borderColor={"white"}
-              borderWidth={2}
-              onClick={() => navigate('/login')}
-            >
-              Log In
-            </Button>
-          </Stack>
-    </Flex>
+              <Button
+                bg={"#222222"}
+                fontSize={"sm"}
+                fontWeight={400}
+                color={"white"}
+                onClick={() => navigate('/signup')}
+              >
+                Sign Up
+              </Button>
+              <Button
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"#222222"}
+                borderColor={"white"}
+                borderWidth={2}
+                onClick={() => navigate('/login')}
+              >
+                Log In
+              </Button>
+            </Stack>
+      </Flex>
+      <Divider paddingTop={"15px"}/>
+    </div>
   )
 }
 

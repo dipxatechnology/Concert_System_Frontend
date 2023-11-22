@@ -4,6 +4,13 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
+import { extendTheme } from "@chakra-ui/react";
+
+const theme = extendTheme({
+  colors: {
+    brand: "#D45161",
+  },
+})
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -12,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route
           path="/*"
           element={
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
               <App />
             </ChakraProvider>
           }

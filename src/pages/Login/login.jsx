@@ -1,5 +1,72 @@
-function Login() {
-  return <p>login</p>;
-}
+import { useState } from 'react';
+import { 
+  Text, 
+  Box, 
+  VStack, 
+  Input, 
+  InputGroup, 
+  InputRightElement,
+  Checkbox,
+  Button,
+} from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { Link } from 'react-router-dom';
+import './login.css';
 
-export default Login;
+export default function Login() {
+  const [ show, setShow ] = useState(false);
+  const handleClick = () => setShow(!show);
+  return(
+    <div 
+      style={{ 
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '70vh',
+      }}>
+      <Box className='login-style' >
+        <VStack alignItems='flex-start'>
+          <Text fontSize='5xl' as='b'>
+            Welcome back!
+          </Text>
+          <Text fontSize='lg' color='grey' marginTop='5px'>
+            Don't have an account?
+            <Link><Box as='span' color='#D45161' paddingLeft={'5px'}>Sign up.</Box></Link>
+          </Text>
+            <Input 
+              placeholder='Email address'
+              background='#333333' 
+              border='none'
+              marginTop='40px'
+              size='lg'
+            />
+            <InputGroup>
+            <Input 
+              placeholder='Password' 
+              background='#333333' 
+              border='none'
+              type={show ? 'text' : 'password'}
+              size='lg'
+            />
+            <InputRightElement>
+            {show ? 
+              <ViewOffIcon onClick={handleClick}/> 
+              : 
+              <ViewIcon onClick={handleClick}/>
+            }
+            </InputRightElement>
+          </InputGroup>
+          <Checkbox 
+            size='lg' 
+            colorScheme='red' 
+            color='grey' 
+            marginTop='20px'
+          >
+            Remember me
+          </Checkbox>
+          <Button bg='brand' width='100%' marginTop='20px'>Login</Button>
+        </VStack>
+      </Box>
+    </div>
+  ) 
+}
