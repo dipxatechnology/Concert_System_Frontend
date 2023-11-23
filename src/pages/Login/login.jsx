@@ -23,7 +23,8 @@ export default function Login() {
         justifyContent: 'center',
         alignItems: 'center',
         height: '70vh',
-      }}>
+      }}
+    >
       <Box className='login-style' >
         <VStack alignItems='flex-start'>
           <Text fontSize='5xl' as='b'>
@@ -32,8 +33,8 @@ export default function Login() {
           <Text fontSize='lg' color='grey' marginTop='5px'>
             Don't have an account?
             <Link to='/signup'>
-              <Box as='span' color='#D45161' paddingLeft={'5px'}>Sign up.</Box>
-            </Link>
+              <Box as='span' color='#D45161' paddingLeft={'5px'}>Sign up</Box>
+            </Link>.
           </Text>
             <Input 
               placeholder='Email address'
