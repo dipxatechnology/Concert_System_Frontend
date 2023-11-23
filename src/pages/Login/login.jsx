@@ -31,7 +31,9 @@ export default function Login() {
           </Text>
           <Text fontSize='lg' color='grey' marginTop='5px'>
             Don't have an account?
-            <Link><Box as='span' color='#D45161' paddingLeft={'5px'}>Sign up.</Box></Link>
+            <Link to='/signup'>
+              <Box as='span' color='#D45161' paddingLeft={'5px'}>Sign up.</Box>
+            </Link>
           </Text>
             <Input 
               placeholder='Email address'
@@ -64,7 +66,15 @@ export default function Login() {
           >
             Remember me
           </Checkbox>
-          <Button bg='brand' width='100%' marginTop='20px'>Login</Button>
+          <Button  
+            bg='brand.100' 
+            width='100%' 
+            marginTop='20px'
+            _hover={{ bg: 'brand.200' }}
+            fontWeight='bold'
+          >
+            Log in
+          </Button>
         </VStack>
       </Box>
     </div>
