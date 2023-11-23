@@ -14,13 +14,13 @@ import './contact.css';
 function ContactUs() {
   return(
     <div 
-    style={{ 
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '70vh',
-    }}
-  >
+      style={{ 
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '70vh',
+      }}
+    >
     <Box className='contact-style' >
       <VStack alignItems='flex-start'>
         <Text fontSize='4xl' as='b' isTruncated>

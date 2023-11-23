@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import SignUp from "./pages/SignUp";
 import ContactUs from "./pages/Contact/contact";
 import MainLayout from "./components/Layouts";
+import About from "./pages/About";
 
 import "./App.css";
 
@@ -17,6 +18,7 @@ return (
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/contact" element={<ContactUs />} />
+      <Route path="/about" element={<About />} />
 
     </Route>
   </Routes>
