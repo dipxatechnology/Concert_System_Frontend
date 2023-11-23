@@ -1,5 +1,5 @@
 function Faq() {
-  return <p>faq</p>;
+  return;
 }
 
 export default Faq;
