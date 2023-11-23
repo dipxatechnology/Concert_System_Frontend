@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import { Box, Flex } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import './layout.css';
+import "./layout.css";
 
-export default function MainLayout(){
-  return(
+export default function MainLayout() {
+  return (
     <Flex direction="column" minHeight="100vh">
       <Navbar />
       <Box flex="1" className="main-layout">
@@ -13,5 +13,5 @@ export default function MainLayout(){
       </Box>
       <Footer />
     </Flex>
-  )   
+  );
 }

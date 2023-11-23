@@ -9,8 +9,14 @@ import { extendTheme } from "@chakra-ui/react";
 const theme = extendTheme({
   colors: {
     brand: "#D45161",
+    Background: "#222222",
+    Foreground: "#333333",
+    Accent: "#D45161",
+    Primary: "#FFFFFF",
+    Secondary: "#FFFFFF7F",
+    Borders: "#555555",
   },
-})
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
