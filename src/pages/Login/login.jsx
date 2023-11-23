@@ -8,6 +8,7 @@ import {
   InputRightElement,
   Checkbox,
   Button,
+  IconButton,
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
@@ -53,9 +54,17 @@ export default function Login() {
             />
             <InputRightElement>
             {show ? 
-              <ViewOffIcon onClick={handleClick}/> 
+              <IconButton 
+                icon={<ViewOffIcon color='white'/>} 
+                onClick={handleClick}
+                style={{ backgroundColor: 'transparent' }} 
+              />
               : 
-              <ViewIcon onClick={handleClick}/>
+              <IconButton 
+                icon={<ViewIcon color='white'/>} 
+                onClick={handleClick}
+                style={{ backgroundColor: 'transparent' }} 
+              />
             }
             </InputRightElement>
           </InputGroup>
