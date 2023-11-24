@@ -8,6 +8,7 @@ import ContactUs from "./pages/Contact/contact";
 import MainLayout from "./components/Layouts";
 import About from "./pages/About";
 import Events from "./pages/Events";
+import Faq from "./pages/Faq/faq";
 
 import "./App.css";
 
@@ -21,7 +22,8 @@ return (
       <Route path="/contact" element={<ContactUs />} />
       <Route path="/about" element={<About />} />
       <Route path="/events" element={<Events />} />
-
+      <Route path="/login" element={<Login />} />
+      <Route path="/Faq" element={<Faq />} />
     </Route>
   </Routes>
 )

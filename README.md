@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/pipo/Concert_System_Frontend">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="/src/assets/logo_dark.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Concert System Frontend
