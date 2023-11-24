@@ -1,45 +1,62 @@
 import { 
     Text, 
-    Box, 
     Stack, 
-    Grid,
     Image,
-    GridItem,
     Card,
     CardBody,
-    CardFooter,
     Divider,
+    SimpleGrid, 
+    Icon,
+    Flex,
     Heading,
   } from '@chakra-ui/react';
+
+import { CalendarIcon } from '@chakra-ui/icons';
+import { FaTicket } from "react-icons/fa6";
+
+import AllData from './Data';
+
 import './events.css';
 
 export default function Events() {
     return(
         <div className='event-style'>
-            <Text fontSize='4xl' as='b'>All Events</Text>
-            <Card maxW='sm'>
-                <CardBody>
-                    <Image
-                    src='https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-                    alt='Green double couch with wooden legs'
-                    borderRadius='lg'
-                    />
-                    <Stack mt='6' spacing='3'>
-                    <Heading size='md'>Living room Sofa</Heading>
-                    <Text>
-                        This sofa is perfect for modern tropical spaces, baroque inspired
-                        spaces, earthy toned spaces and for people who love a chic design with a
-                        sprinkle of vintage design.
-                    </Text>
-                    <Text color='blue.600' fontSize='2xl'>
-                        $450
-                    </Text>
-                    </Stack>
-                </CardBody>
-                <Divider />
-                <CardFooter>
-                </CardFooter>
-            </Card>
+            <Heading as='h1' size='2xl' margin='20px 0'>All Events</Heading>
+            <SimpleGrid columns={3} spacing={10}>
+                {AllData.map((data, index) => {
+                    return (
+                        <Card 
+                            key={index} 
+                            color='white' 
+                            borderRadius='xl' 
+                            width='auto' 
+                            bg='rgba(85, 85, 85, 0.5)'
+                            marginTop='5vh'
+                        >
+                            <CardBody>
+                                <Image
+                                    src={data.src}
+                                    alt='Retro Music Fest Poster'
+                                    borderRadius='xl'
+                                />
+                                <Divider mt='5' borderWidth='1px' />
+                                <Stack mt='3' textAlign='center'> 
+                                    <Text fontSize='2xl' color='#D45161'>{data.name}</Text>
+                                    <Text>{data.location}</Text>
+                                    <Flex justifyContent='center' alignItems="center" marginTop='5px'>
+                                        <CalendarIcon color='brand.100' boxSize="20px" marginRight='10px' />
+                                        <Text> {data.month} | {data.time} </Text>
+                                    </Flex>
+                                    <Flex justifyContent='center' alignItems="center">
+                                        <Icon as={FaTicket} color='brand.100' boxSize="20px"  marginRight='10px' />
+                                        <Text>From: {data.amount}</Text>
+                                    </Flex>
+                                </Stack>
+                            </CardBody>
+                        </Card>
+                    )
+                })}
+            </SimpleGrid>
         </div>
     )
 }
