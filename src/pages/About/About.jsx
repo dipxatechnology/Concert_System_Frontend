@@ -6,7 +6,6 @@ import {
     Image,
     GridItem,
   } from '@chakra-ui/react';
-  import { ArrowForwardIcon } from '@chakra-ui/icons';
   
 import './about.css';
 
