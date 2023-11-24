@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
+import { AnimCursor } from "./components/AnimCursor.jsx";
 
 const theme = extendTheme({
   colors: {
@@ -28,9 +29,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route
           path="/*"
           element={
-            <ChakraProvider theme={theme}>
-              <App />
-            </ChakraProvider>
+            <>
+              <ChakraProvider theme={theme}>
+                <App />
+              </ChakraProvider>
+              <AnimCursor />
+            </>
           }
         />
       </Routes>
