@@ -6,6 +6,7 @@ import "./index.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
 import { AnimCursor } from "./components/AnimCursor.jsx";
+import ScrollIndicator from "./components/ScrollIndicator.jsx";
 
 const theme = extendTheme({
   colors: {
@@ -33,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <ChakraProvider theme={theme}>
                 <App />
               </ChakraProvider>
+              <ScrollIndicator />
               <AnimCursor />
             </>
           }
