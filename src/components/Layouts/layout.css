@@ -1,9 +1,9 @@
 .background {
-    background-color: #222222;
+  background-color: #222222;
 }
 
 .main-layout {
-    padding: 10px 50px;
-    border: 2px solid red;
-    background-color: #222222;
+  padding: 10px 50px;
+  /* border: 2px solid red; */
+  background-color: #222222;
 }
