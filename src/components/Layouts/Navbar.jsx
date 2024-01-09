@@ -1,4 +1,4 @@
-// Import Chakra UI components and icons
+import { useState } from "react";
 import {
   Box,
   Flex,
@@ -7,6 +7,7 @@ import {
   Spacer,
   Image,
   Divider,
+  Avatar,
 } from "@chakra-ui/react";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +16,7 @@ import "./layout.css";
 
 // Define the main component
 export default function Navbar() {
+  const [loggedIn, loggedOut] = useState(true);
   const navigate = useNavigate();
   return (
     <div style={{ padding: "15px 50px" }} className="background">
@@ -29,26 +31,32 @@ export default function Navbar() {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            bg={"#222222"}
-            fontSize={"sm"}
-            fontWeight={400}
-            color={"white"}
-            onClick={() => navigate("/signup")}
-          >
-            Sign Up
-          </Button>
-          <Button
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"#222222"}
-            borderColor={"white"}
-            borderWidth={2}
-            onClick={() => navigate("/login")}
-          >
-            Log In
-          </Button>
+          {loggedIn ? (
+            <Avatar size="md" />
+          ) : (
+            <>
+              <Button
+                bg={"#222222"}
+                fontSize={"sm"}
+                fontWeight={400}
+                color={"white"}
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </Button>
+              <Button
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={"#222222"}
+                borderColor={"white"}
+                borderWidth={2}
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </Button>
+            </>
+          )}
         </Stack>
       </Flex>
       <Divider paddingTop={"15px"} />

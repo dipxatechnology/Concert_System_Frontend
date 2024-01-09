@@ -10,6 +10,7 @@ import {
   Button,
   HStack,
   IconButton,
+  Select,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -31,7 +32,7 @@ export default function SignUp() {
         alignItems: "center",
         height: "70vh",
         marginTop: "30px",
-        marginBottom: "30px",
+        marginBottom: "50px",
       }}
     >
       <Box className="signup-style">
@@ -121,6 +122,27 @@ export default function SignUp() {
               )}
             </InputRightElement>
           </InputGroup>
+          <Select
+            variant="outline"
+            background="#333333"
+            border="none"
+            placeholder="Select option"
+            color="white"
+            marginTop="5px"
+          >
+            <option
+              style={{ color: "black", backgroundColor: "white" }}
+              value="User"
+            >
+              User
+            </option>
+            <option
+              style={{ color: "black", backgroundColor: "white" }}
+              value="Admin"
+            >
+              Admin
+            </option>
+          </Select>
           <Checkbox size="lg" colorScheme="red" color="grey" marginTop="20px">
             I agree to the
             <Link to="/terms">
