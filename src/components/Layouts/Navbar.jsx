@@ -8,7 +8,15 @@ import {
   Image,
   Divider,
   Avatar,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  MenuDivider,
 } from "@chakra-ui/react";
+import { RxAvatar } from "react-icons/rx";
+import { GrDocumentTime } from "react-icons/gr";
+import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -16,7 +24,7 @@ import "./layout.css";
 
 // Define the main component
 export default function Navbar() {
-  const [loggedIn, loggedOut] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(true);
   const navigate = useNavigate();
   return (
     <div style={{ padding: "15px 50px" }} className="background">
@@ -32,7 +40,73 @@ export default function Navbar() {
           spacing={6}
         >
           {loggedIn ? (
-            <Avatar size="md" />
+            // <Avatar size="md" />
+            <>
+              <Menu>
+                <MenuButton>
+                  <Avatar size="md" />
+                </MenuButton>
+                <MenuList background="#333333">
+                  <MenuItem background="#333333" color="white">
+                    <Avatar size="md" className="avatar-container" />
+                    *User Name*
+                  </MenuItem>
+                  <MenuDivider />
+                  <MenuItem
+                    onClick={() => navigate("/profile")}
+                    _hover={{ background: "#D45161", color: "black" }}
+                    background="#333333"
+                    color="white"
+                    icon={
+                      <Box margin="5px 4px">
+                        <RxAvatar size="25px" />
+                      </Box>
+                    }
+                  >
+                    Profile
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => navigate("/ticket-history")}
+                    _hover={{ background: "#D45161", color: "black" }}
+                    background="#333333"
+                    color="white"
+                    icon={
+                      <Box margin="5px 6px">
+                        <GrDocumentTime size="20px" />
+                      </Box>
+                    }
+                  >
+                    Ticket History
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => navigate("/settings")}
+                    _hover={{ background: "#D45161", color: "black" }}
+                    background="#333333"
+                    color="white"
+                    icon={
+                      <Box margin="5px 5px">
+                        <IoSettingsOutline size="24px" />
+                      </Box>
+                    }
+                  >
+                    Settings
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => setLoggedIn(false)}
+                    _hover={{ background: "#D45161", color: "black" }}
+                    background="#333333"
+                    color="white"
+                    icon={
+                      <Box margin="5px 5px">
+                        <IoLogOutOutline size="25px" />
+                      </Box>
+                    }
+                  >
+                    Log out
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            </>
           ) : (
             <>
               <Button
