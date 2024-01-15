@@ -1,0 +1,26 @@
+.container {
+  color: white;
+  border: 1px solid palevioletred;
+}
+
+.flex {
+  border: 1px solid cornflowerblue;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  margin-top: 5vh;
+}
+
+.box-diff-margin {
+  display: flex;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.internal-box {
+  width: 45%;
+  max-width: 400px;
+  border: 1px solid palegreen;
+}

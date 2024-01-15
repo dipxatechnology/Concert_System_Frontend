@@ -10,6 +10,7 @@ import About from "./pages/About";
 import Events from "./pages/Events";
 import Faq from "./pages/Faq/faq";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 
 import "./App.css";
 
@@ -26,6 +27,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/Faq" element={<Faq />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
       </Route>
     </Routes>
   );
