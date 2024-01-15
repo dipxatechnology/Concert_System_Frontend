@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import ContactUs from "./pages/Contact/contact";
+import ContactUs from "./pages/Contact";
 import MainLayout from "./components/Layouts";
 import About from "./pages/About";
 import Events from "./pages/Events";
