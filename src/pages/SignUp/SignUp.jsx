@@ -11,6 +11,7 @@ import {
   HStack,
   IconButton,
   Select,
+  Textarea,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function SignUp() {
   return (
     <div>
       <Box className="signup-style">
-        <VStack alignItems="flex-start">
+        <VStack alignItems="flex-start" width="30%">
           <Text fontSize="5xl" as="b">
             Create an account
           </Text>
@@ -57,12 +58,45 @@ export default function SignUp() {
             />
           </HStack>
           <Input
-            placeholder="Email address"
+            placeholder="Contact"
             background="#333333"
             border="none"
             marginTop="5px"
             size="lg"
           />
+          <Input
+            placeholder="Email Address"
+            background="#333333"
+            border="none"
+            marginTop="5px"
+            size="lg"
+          />
+          <Textarea
+            placeholder="Residency Address"
+            background="#333333"
+            border="none"
+            marginTop="5px"
+            size="lg"
+            height="15vh"
+          />
+          <HStack>
+            <Input
+              placeholder="Postcode"
+              background="#333333"
+              border="none"
+              marginTop="5px"
+              size="lg"
+              width="40%"
+            />
+            <Input
+              placeholder="Country"
+              background="#333333"
+              border="none"
+              marginTop="5px"
+              size="lg"
+              width="60%"
+            />
+          </HStack>
           <InputGroup>
             <Input
               placeholder="Password"
@@ -113,27 +147,6 @@ export default function SignUp() {
               )}
             </InputRightElement>
           </InputGroup>
-          <Select
-            variant="outline"
-            background="#333333"
-            border="none"
-            placeholder="Select option"
-            color="white"
-            marginTop="5px"
-          >
-            <option
-              style={{ color: "black", backgroundColor: "white" }}
-              value="User"
-            >
-              User
-            </option>
-            <option
-              style={{ color: "black", backgroundColor: "white" }}
-              value="Admin"
-            >
-              Admin
-            </option>
-          </Select>
           <Checkbox size="lg" colorScheme="red" color="grey" marginTop="20px">
             I agree to the
             <Link to="/terms">
