@@ -10,7 +10,7 @@
 .box {
   display: flex;
   justify-content: center;
-  margin-top: 5vh;
+  margin-top: 7vh;
 }
 
 .box-diff-margin {
@@ -20,7 +20,7 @@
 }
 
 .internal-box {
-  width: 45%;
-  max-width: 400px;
+  width: 40%;
+  max-width: 350px;
   border: 1px solid palegreen;
 }
