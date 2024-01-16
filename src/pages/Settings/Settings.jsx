@@ -197,22 +197,40 @@ export default function Settings() {
               User info
             </Text>
             <Divider margin="5px 0" />
-            <Stack>
-              <Text
-                marginTop="5px"
-                color="grey"
-                fontSize="small"
-                fontWeight="600"
-              >
-                Username
-              </Text>
-              <Input
-                background="#333333"
-                border="none"
-                size="lg"
-                borderRadius="10px"
-              />
-            </Stack>
+            <HStack>
+              <Stack>
+                <Text
+                  marginTop="5px"
+                  color="grey"
+                  fontSize="small"
+                  fontWeight="600"
+                >
+                  First Name
+                </Text>
+                <Input
+                  background="#333333"
+                  border="none"
+                  size="lg"
+                  borderRadius="10px"
+                />
+              </Stack>
+              <Stack>
+                <Text
+                  marginTop="5px"
+                  color="grey"
+                  fontSize="small"
+                  fontWeight="600"
+                >
+                  Last Name
+                </Text>
+                <Input
+                  background="#333333"
+                  border="none"
+                  size="lg"
+                  borderRadius="10px"
+                />
+              </Stack>
+            </HStack>
             <Stack>
               <Text
                 marginTop="5px"
@@ -263,7 +281,7 @@ export default function Settings() {
               />
             </Stack>
             <HStack>
-              <Stack>
+              <Stack width="40%">
                 <Text
                   marginTop="5px"
                   color="grey"
@@ -277,10 +295,8 @@ export default function Settings() {
                   border="none"
                   size="lg"
                   borderRadius="10px"
-                  width="15vh"
                 />
               </Stack>
-              <Spacer />
               <Stack>
                 <Text
                   marginTop="5px"
@@ -295,7 +311,6 @@ export default function Settings() {
                   border="none"
                   size="lg"
                   borderRadius="10px"
-                  width="28vh"
                 />
               </Stack>
             </HStack>
