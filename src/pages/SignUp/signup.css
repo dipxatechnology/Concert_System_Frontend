@@ -1,4 +1,9 @@
 .signup-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
   color: white;
-  width: 30%;
+  border: 1px solid cadetblue;
 }

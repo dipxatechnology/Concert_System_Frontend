@@ -25,16 +25,7 @@ export default function SignUp() {
   const handleClickConfirm = () => setShowConfirm(!showConfirm);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "70vh",
-        marginTop: "30px",
-        marginBottom: "50px",
-      }}
-    >
+    <div>
       <Box className="signup-style">
         <VStack alignItems="flex-start">
           <Text fontSize="5xl" as="b">
