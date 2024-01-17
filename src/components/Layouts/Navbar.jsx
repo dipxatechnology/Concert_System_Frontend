@@ -14,6 +14,7 @@ import {
   MenuList,
   MenuDivider,
 } from "@chakra-ui/react";
+import { CalendarIcon } from "@chakra-ui/icons";
 import { RxAvatar } from "react-icons/rx";
 import { GrDocumentTime } from "react-icons/gr";
 import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
@@ -72,11 +73,11 @@ export default function Navbar() {
                     color="white"
                     icon={
                       <Box margin="5px 6px">
-                        <GrDocumentTime size="20px" />
+                        <CalendarIcon boxSize="20px" />
                       </Box>
                     }
                   >
-                    Ticket History
+                    Join Events
                   </MenuItem>
                   <MenuItem
                     onClick={() => navigate("/settings")}
@@ -161,10 +162,6 @@ const NAV_ITEMS = [
   {
     label: "About",
     href: "/about",
-  },
-  {
-    label: "Events",
-    href: "/events",
   },
   {
     label: "Contact",
