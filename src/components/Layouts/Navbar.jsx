@@ -67,7 +67,7 @@ export default function Navbar() {
                     Profile
                   </MenuItem>
                   <MenuItem
-                    onClick={() => navigate("/ticket-history")}
+                    onClick={() => navigate("/events")}
                     _hover={{ background: "#D45161", color: "black" }}
                     background="#333333"
                     color="white"

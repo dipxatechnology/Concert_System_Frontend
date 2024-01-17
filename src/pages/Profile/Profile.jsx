@@ -71,7 +71,7 @@ export default function Profile() {
       <Divider margin="15px 0 35px" />
       <SimpleGrid columns={3} spacing={10}>
         {/*Sample for card*/}
-        <Card bg="Foreground" color="white">
+        <Card bg="Foreground" color="white" borderRadius="10px">
           <CardHeader>
             <Text fontWeight="600" fontSize="xl">
               Client Report
