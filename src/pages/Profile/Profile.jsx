@@ -60,8 +60,8 @@ export default function Profile() {
           bg="brand.100"
           _hover={{ bg: "brand.200" }}
           fontWeight="bold"
-          padding="10px"
-          marginRight="8px"
+          padding="15px"
+          marginRight="4vh"
           size="sm"
         >
           <Icon as={RiSearch2Line} marginRight="10px" boxSize="20px" />
