@@ -60,9 +60,9 @@ export default function Events() {
       <SimpleGrid columns={3} spacing={10}>
         {concerts.map((concert, index) => {
           const concertData = concert.attributes;
-          const image = `http://localhost:1337${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`;
+          const image = `http://localhost:5000${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`;
           console.log(
-            `http://localhost:1337${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`
+            `http://localhost:5000${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`
           );
 
           return (
