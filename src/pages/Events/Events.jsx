@@ -1,4 +1,5 @@
 import { useQuery } from "@apollo/client";
+import { Link } from "react-router-dom";
 import { gql } from "graphql-tag";
 import {
   Text,
@@ -14,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 import { CalendarIcon } from "@chakra-ui/icons";
-import { FaTicket } from "react-icons/fa6";
+import { FaTicket, FaLocationDot } from "react-icons/fa6";
 import "./events.css";
 
 const CONCERTS_QUERY = gql`
@@ -31,6 +32,7 @@ const CONCERTS_QUERY = gql`
           country
           genre
           description
+          Price
           avatar {
             data {
               attributes {
@@ -60,64 +62,86 @@ export default function Events() {
       <SimpleGrid columns={3} spacing={10}>
         {concerts.map((concert, index) => {
           const concertData = concert.attributes;
-          const image = `http://localhost:5000${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`;
-          console.log(
-            `http://localhost:5000${concertData.avatar?.data?.attributes?.formats?.thumbnail?.url}`
-          );
+          const image = `http://localhost:5000${concertData.avatar?.data?.attributes?.formats?.large?.url}`;
+          const date = new Date(concertData.date);
+          const formattedDate = date.toLocaleDateString("en-MY");
+
+          const timeString = concertData.time;
+          const timeParts = timeString.split(":");
+          date.setHours(timeParts[0], timeParts[1], timeParts[2]);
+
+          const formattedTime = date.toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
+          console.log(concert.id);
 
           return (
-            <Card
-              key={index}
-              color="white"
-              borderRadius="xl"
-              width="auto"
-              bg="rgba(85, 85, 85, 0.5)"
-              marginTop="5vh"
-            >
-              <CardBody>
-                <Image
-                  src={image} // Assuming `avatar` is an object with a `url` property
-                  alt={concertData.title}
-                  borderRadius="xl"
-                />
+            <Link to={`/events/${concert.id}`}>
+              <Card
+                key={index}
+                color="white"
+                borderRadius="xl"
+                width="auto"
+                bg="rgba(85, 85, 85, 0.5)"
+                marginTop="5vh"
+              >
+                <CardBody>
+                  <Image
+                    src={image}
+                    alt={concertData.title}
+                    borderRadius="xl"
+                  />
+                  <Divider mt="5" borderWidth="1px" />
+                  <Stack mt="3" textAlign="center">
+                    <Text fontSize="2xl" color="#D45161">
+                      {concertData.title}
+                    </Text>
+                    <Flex
+                      justifyContent="center"
+                      alignItems="flex-start"
+                      marginTop="5px"
+                    >
+                      <Icon
+                        as={FaLocationDot}
+                        color="brand.100"
+                        boxSize="20px"
+                        marginRight="5px"
+                      />
+                      <Text>
+                        {concertData.venue}, {concertData.state},{" "}
+                        {concertData.country}
+                      </Text>
+                    </Flex>
 
-                <Divider mt="5" borderWidth="1px" />
-                <Stack mt="3" textAlign="center">
-                  <Text fontSize="2xl" color="#D45161">
-                    {concertData.title}
-                  </Text>
-                  <Text>
-                    {concertData.venue}, {concertData.state},{" "}
-                    {concertData.country}
-                  </Text>
-                  <Flex
-                    justifyContent="center"
-                    alignItems="center"
-                    marginTop="5px"
-                  >
-                    <CalendarIcon
-                      color="brand.100"
-                      boxSize="20px"
-                      marginRight="10px"
-                    />
-                    <Text>
-                      {concertData.date} | {concertData.time}
-                    </Text>
-                  </Flex>
-                  <Flex justifyContent="center" alignItems="center">
-                    <Icon
-                      as={FaTicket}
-                      color="brand.100"
-                      boxSize="20px"
-                      marginRight="10px"
-                    />
-                    <Text>
-                      From: {concertData.description[0].children[0].text}
-                    </Text>
-                  </Flex>
-                </Stack>
-              </CardBody>
-            </Card>
+                    <Flex
+                      justifyContent="center"
+                      alignItems="center"
+                      marginTop="5px"
+                    >
+                      <CalendarIcon
+                        color="brand.100"
+                        boxSize="20px"
+                        marginRight="10px"
+                      />
+                      <Text>
+                        {formattedDate} | {formattedTime}
+                      </Text>
+                    </Flex>
+                    <Flex justifyContent="center" alignItems="center">
+                      <Icon
+                        as={FaTicket}
+                        color="brand.100"
+                        boxSize="20px"
+                        marginRight="10px"
+                      />
+                      <Text>RM{concertData.Price} </Text>
+                    </Flex>
+                  </Stack>
+                </CardBody>
+              </Card>
+            </Link>
           );
         })}
       </SimpleGrid>

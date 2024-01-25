@@ -12,6 +12,7 @@ import Faq from "./pages/Faq/faq";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import TicketHistory from "./pages/TicketHistory";
+import SpecificEvent from "./pages/Events/specificEvent";
 
 import "./App.css";
 
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ticket-history" element={<TicketHistory />} />
+        <Route path="/events/:id" element={<SpecificEvent />} />
       </Route>
     </Routes>
   );
