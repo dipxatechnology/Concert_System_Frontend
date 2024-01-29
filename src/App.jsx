@@ -12,7 +12,7 @@ import Faq from "./pages/Faq/faq";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import TicketHistory from "./pages/TicketHistory";
-import SpecificEvent from "./pages/Events/specificEvent";
+import SpecificEvent from "./pages/Events/SpecificEvent";
 
 import "./App.css";
 

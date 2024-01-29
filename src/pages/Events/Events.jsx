@@ -75,8 +75,6 @@ export default function Events() {
             minute: "2-digit",
           });
 
-          console.log(concert.id);
-
           return (
             <Link to={`/events/${concert.id}`}>
               <Card
