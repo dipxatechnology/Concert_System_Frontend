@@ -11,7 +11,6 @@ import Events from "./pages/Events";
 import Faq from "./pages/Faq/faq";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
-import TicketHistory from "./pages/TicketHistory";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 
 import "./App.css";
@@ -30,7 +29,6 @@ export default function App() {
         <Route path="/Faq" element={<Faq />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
-        <Route path="/ticket-history" element={<TicketHistory />} />
         <Route path="/events/:id" element={<SpecificEvent />} />
       </Route>
     </Routes>

@@ -16,7 +16,6 @@ import {
   IconButton,
   Stack,
   HStack,
-  Spacer,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
@@ -50,7 +49,7 @@ export default function Settings() {
         </Breadcrumb>
       </Box>
       <Box className="box">
-        <Flex justifyContent="space-between" className="flex" w="60%">
+        <Flex justifyContent="space-between" w="60%">
           <Box className="internal-box">
             <Text fontSize="lg" fontWeight="600">
               Avatar

@@ -1,16 +1,11 @@
 .container {
   color: white;
-  border: 1px solid palevioletred;
-}
-
-.flex {
-  border: 1px solid cornflowerblue;
 }
 
 .box {
   display: flex;
   justify-content: center;
-  margin-top: 7vh;
+  margin-top: 4vh;
 }
 
 .box-diff-margin {
@@ -22,5 +17,4 @@
 .internal-box {
   width: 40%;
   max-width: 350px;
-  border: 1px solid palegreen;
 }
