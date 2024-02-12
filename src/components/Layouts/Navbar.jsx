@@ -28,7 +28,6 @@ import Cookies from "js-cookie";
 
 // Define the main component
 export default function Navbar({ setLoggedIn, loggedIn }) {
-  // const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
