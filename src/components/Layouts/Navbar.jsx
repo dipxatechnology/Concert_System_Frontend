@@ -17,16 +17,34 @@ import {
 import { CalendarIcon } from "@chakra-ui/icons";
 import { RxAvatar } from "react-icons/rx";
 import { GrDocumentTime } from "react-icons/gr";
+import Login from "../../pages/Login";
 import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
 
 import "./layout.css";
+import api from "../../api/api";
+import Cookies from "js-cookie";
 
 // Define the main component
-export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(true);
+export default function Navbar({ setLoggedIn, loggedIn }) {
+  // const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Make an API request to the backend logout endpoint
+      await api.post("/auth/logout");
+
+      // Remove the access token from cookies
+      Cookies.remove("accessToken");
+
+      // Redirect or perform actions after successful logout
+    } catch (error) {
+      console.error("Logout failed:", error.message); // Handle logout failure
+    }
+  };
+
   return (
     <div style={{ padding: "15px 50px" }} className="background">
       <Flex alignItems="center">
@@ -93,7 +111,10 @@ export default function Navbar() {
                     Settings
                   </MenuItem>
                   <MenuItem
-                    onClick={() => setLoggedIn(false)}
+                    onClick={() => {
+                      setLoggedIn(false);
+                      handleLogout();
+                    }}
                     _hover={{ background: "#D45161", color: "black" }}
                     background="#333333"
                     color="white"

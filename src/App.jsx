@@ -13,20 +13,21 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import TicketHistory from "./pages/TicketHistory";
 import SpecificEvent from "./pages/Events/SpecificEvent";
-
+import { useState } from "react";
 import "./App.css";
 
 export default function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
+      <Route path="/" element={<MainLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>}>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/Faq" element={<Faq />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
