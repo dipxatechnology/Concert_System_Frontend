@@ -36,7 +36,6 @@ export default function Login({ setLoggedIn }) {
 
       // Extract the token from the response
       const { accessToken } = response.data;
-      console.log(accessToken);
 
       // Store the token in a secure manner (e.g., in cookies)
       Cookies.set("accessToken", accessToken, { expires: 1 });
@@ -46,7 +45,6 @@ export default function Login({ setLoggedIn }) {
 
       // Redirect or perform actions after successful login
       navigate("/");
-      console.log("Login successful");
     } catch (error) {
       console.error("Login failed:", error.message); // Handle login failure
     }
