@@ -18,8 +18,7 @@ import { FaTicket, FaLocationDot } from "react-icons/fa6";
 import "./events.css";
 import api from "../../api/api";
 
-export default function Events() {
-  const [loading, setLoading] = useState(true);
+export default function Events({ setLoading, loading }) {
   const [error, setError] = useState(null);
   const [concerts, setConcerts] = useState([]);
 
@@ -52,18 +51,21 @@ export default function Events() {
             <Card
               color="white"
               borderRadius="xl"
+              height="auto"
               width="auto"
               bg="rgba(85, 85, 85, 0.5)"
               marginTop="5vh"
             >
               <CardBody>
-                <Image
-                  src={concert.artist.profile}
-                  alt={concert.title}
-                  borderRadius="xl"
-                />
-                <Divider mt="5" borderWidth="1px" />
-                <Stack mt="3" textAlign="center">
+                <Stack mt="3" textAlign="center" align="center">
+                  <Image
+                    boxSize='350px'
+                    fit="contain"
+                    src={concert.profile}
+                    alt={concert.title}
+                    borderRadius="xl"
+                  />
+                  <Divider mt="5" borderWidth="1px" />
                   <Text fontSize="2xl" color="#D45161">
                     {concert.title}
                   </Text>

@@ -16,8 +16,6 @@ import {
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { RxAvatar } from "react-icons/rx";
-import { GrDocumentTime } from "react-icons/gr";
-import Login from "../../pages/Login";
 import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
