@@ -13,28 +13,12 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import TicketHistory from "./pages/TicketHistory";
 import SpecificEvent from "./pages/Events/SpecificEvent";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-
-
-  // useEffect(() => {
-  //   // Check the cookie
-  //   const accessToken = document.cookie.split('; ').find(row => row.startsWith('accessToken='));
-     
-  //   if (!accessToken) {
-  //    // User is logged in, set the state
-  //    setLoggedIn(true);
-  //   } else {
-  //    // User is not logged in
-  //    setLoggedIn(false);
-  //   }
-     
-  //   setLoading(false);
-  //  }, []);
 
   return (
     <Routes>

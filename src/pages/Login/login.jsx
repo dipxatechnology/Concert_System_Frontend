@@ -30,25 +30,27 @@ export default function Login({ setLoggedIn }) {
         username,
         password,
       };
-
+  
       // Make an API request to authenticate the user and obtain a token
       const response = await api.post("/auth", loginData);
-
-      // Extract the token from the response
-      const { accessToken } = response.data;
-
-      // Store the token in a secure manner (e.g., in cookies)
+  
+      // Extract the token and user data from the response
+      const { accessToken, userData } = response.data;
+  
+      // Store the token and user data in a secure manner (e.g., in cookies or local storage)
       Cookies.set("accessToken", accessToken, { expires: 1 });
-
-      // Set the setlogged in into true
+      localStorage.setItem("userData", JSON.stringify(userData));
+  
+      // Set the setLoggedIn to true
       setLoggedIn(true);
-
+  
       // Redirect or perform actions after successful login
       navigate("/");
     } catch (error) {
-      console.error("Login failed:", error.message); // Handle login failure
+      console.error("Login failed:", error.message); 
     }
   };
+  
 
   return(
     <div 

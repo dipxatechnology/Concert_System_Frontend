@@ -36,6 +36,9 @@ export default function Navbar({ setLoggedIn, loggedIn }) {
       // Remove the access token from cookies
       Cookies.remove("accessToken");
 
+      // Remove the localstorage userdata
+      localStorage.removeItem('userData')
+
       // Redirect or perform actions after successful logout
     } catch (error) {
       console.error("Logout failed:", error.message); // Handle logout failure

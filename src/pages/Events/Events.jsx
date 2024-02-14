@@ -47,7 +47,11 @@ export default function Events({ setLoading, loading }) {
       </Heading>
       <SimpleGrid columns={3} spacing={10}>
         {concerts.map((concert) => (
-          <Link to={`/events/${concert._id}`} key={concert._id}>
+          <Link
+            to={`/events/${concert._id}`}
+            key={concert._id}
+            onClick={() => setLoading(true)}
+          >
             <Card
               color="white"
               borderRadius="xl"
@@ -59,7 +63,7 @@ export default function Events({ setLoading, loading }) {
               <CardBody>
                 <Stack mt="3" textAlign="center" align="center">
                   <Image
-                    boxSize='350px'
+                    boxSize="350px"
                     fit="contain"
                     src={concert.profile}
                     alt={concert.title}

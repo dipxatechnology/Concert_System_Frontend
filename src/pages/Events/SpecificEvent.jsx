@@ -10,18 +10,22 @@ import {
   CardBody,
   Divider,
   Select,
+  Button,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { FaTicket, FaLocationDot } from "react-icons/fa6";
 import api from "../../api/api";
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./events.css";
 
 export default function SpecificEvent({ loading, setLoading }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
-
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -35,10 +39,35 @@ export default function SpecificEvent({ loading, setLoading }) {
     };
 
     fetchEvent();
-  }, [id, setLoading]);
+  }, []);
 
-  if (loading) return <p>Loading...</p>;
+  if (!event && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const handlePurchase = async () => {
+    try {
+      const currentDate = new Date().toISOString();
+
+      const userObject = JSON.parse(localStorage.getItem("userData"));
+
+      const userId = userObject?._id;
+      const concertId = event._id;
+
+      const ticketData = {
+        status: "Completed",
+        quantity: selectedQuantity,
+        user: userId,
+        concert: concertId,
+        date: currentDate,
+      };
+
+      await api.post("/tickets", ticketData);
+
+      navigate("/events");
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+    }
+  };
 
   return (
     <div className="event-style">
@@ -105,6 +134,10 @@ export default function SpecificEvent({ loading, setLoading }) {
                   maxWidth="15vh"
                   bg="white"
                   color="black"
+                  value={selectedQuantity}
+                  onChange={(e) =>
+                    setSelectedQuantity(parseInt(e.target.value, 10))
+                  }
                 >
                   {[...Array(11).keys()].map((num) => (
                     <option key={num}>{num}</option>
@@ -113,6 +146,16 @@ export default function SpecificEvent({ loading, setLoading }) {
               </Flex>
             </CardBody>
           </Card>
+          <Button
+            bg="brand.100"
+            width="100%"
+            marginTop="20px"
+            _hover={{ bg: "brand.200" }}
+            fontWeight="bold"
+            onClick={handlePurchase}
+          >
+            Purhcase
+          </Button>
         </Stack>
       </Box>
     </div>
