@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Flex,
@@ -37,13 +36,17 @@ export default function Navbar({ setLoggedIn, loggedIn }) {
       Cookies.remove("accessToken");
 
       // Remove the localstorage userdata
-      localStorage.removeItem('userData')
+      localStorage.removeItem("userData");
 
       // Redirect or perform actions after successful logout
     } catch (error) {
       console.error("Logout failed:", error.message); // Handle logout failure
     }
   };
+
+  const storedData = localStorage.getItem("userData");
+
+  const storedObject = JSON.parse(storedData);
 
   return (
     <div style={{ padding: "15px 50px" }} className="background">
@@ -63,12 +66,12 @@ export default function Navbar({ setLoggedIn, loggedIn }) {
             <>
               <Menu>
                 <MenuButton>
-                  <Avatar size="md" />
+                  <Avatar size="md" src={`${storedObject.profile}`}/>
                 </MenuButton>
                 <MenuList background="#333333">
                   <MenuItem background="#333333" color="white">
-                    <Avatar size="md" className="avatar-container" />
-                    *User Name*
+                    <Avatar size="md" className="avatar-container" src={`${storedObject.profile}`} />
+                    {storedObject.username}
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem
