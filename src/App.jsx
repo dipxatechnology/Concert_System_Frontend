@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<MainLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>}>
+      <Route path="/" element={<MainLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn} loading={loading} setLoading={setLoading}/>}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>} />
         <Route path="/signup" element={<SignUp />} />
@@ -30,7 +30,7 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events setLoading={setLoading} loading={loading}/>} />
         <Route path="/Faq" element={<Faq />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:id" element={<Profile setLoading={setLoading} loading={loading}/>} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ticket-history" element={<TicketHistory />} />
         <Route path="/events/:id" element={<SpecificEvent setLoading={setLoading} loading={loading}/>} />
