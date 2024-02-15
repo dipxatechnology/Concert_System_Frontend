@@ -21,22 +21,37 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<MainLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn} loading={loading} setLoading={setLoading}/>}>
+      <Route
+        path="/"
+        element={
+          <MainLayout
+            loggedIn={loggedIn}
+            setLoggedIn={setLoggedIn}
+            loading={loading}
+            setLoading={setLoading}
+          />
+        }
+      >
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
-        <Route path="/events" element={<Events setLoading={setLoading} loading={loading}/>} />
+        <Route
+          path="/events"
+          element={<Events setLoading={setLoading} loading={loading} />}
+        />
         <Route path="/Faq" element={<Faq />} />
-        <Route path="/profile/:id" element={<Profile setLoading={setLoading} loading={loading}/>} />
+        <Route
+          path="/profile/:id"
+          element={<Profile setLoading={setLoading} loading={loading} />}
+        />
         <Route path="/settings" element={<Settings />} />
-<<<<<<< HEAD
-        <Route path="/events/:id" element={<SpecificEvent />} />
-=======
         <Route path="/ticket-history" element={<TicketHistory />} />
-        <Route path="/events/:id" element={<SpecificEvent setLoading={setLoading} loading={loading}/>} />
->>>>>>> main
+        <Route
+          path="/events/:id"
+          element={<SpecificEvent setLoading={setLoading} loading={loading} />}
+        />
       </Route>
     </Routes>
   );
