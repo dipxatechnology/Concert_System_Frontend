@@ -10,8 +10,30 @@ import {
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import './contact.css';
+import { useState } from 'react';
+import api from '../../api/api';
 
 function ContactUs() {
+  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleFeedback = async () => {
+    try {
+      const feedbackData = {
+        username,
+        email,
+        message,
+      }
+
+      await api.post("/feedbacks", feedbackData)
+
+      // event.preventDefault;
+    } catch (error) {
+      console.error("feedback error: ", error.message);
+    }
+  };
+
   return(
     <div 
       style={{ 
@@ -37,6 +59,7 @@ function ContactUs() {
             border='none'
             size='lg'
             flex='1'
+            onChange={(e) => setUserName(e.target.value)}
           />
           <Input 
             placeholder='Email address'
@@ -44,6 +67,7 @@ function ContactUs() {
             border='none'
             size='lg'
             flex='1'
+            onChange={(e) => setEmail(e.target.value)}
           />
         </HStack>
           <Textarea
@@ -53,6 +77,7 @@ function ContactUs() {
             marginTop='5px'
             size='lg'
             height='180px'
+            onChange={(e) => setMessage(e.target.value)}
           />
         <Button  
           bg='brand.100' 
@@ -60,6 +85,10 @@ function ContactUs() {
           marginTop='30px'
           _hover={{ bg: 'brand.200' }}
           fontWeight='bold'
+          onClick={() => {
+            handleFeedback();
+            
+          }}
         >
           Send Message {<ArrowForwardIcon boxSize={6} paddingLeft='10px' paddingTop='4px'/>}
         </Button>
