@@ -1,7 +1,4 @@
-import { useQuery } from "@apollo/client";
-import { gql } from "graphql-tag";
 import { useParams } from "react-router-dom";
-
 import {
   Text,
   Image,
@@ -13,63 +10,65 @@ import {
   CardBody,
   Divider,
   Select,
+  Button,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { FaTicket, FaLocationDot } from "react-icons/fa6";
+import api from "../../api/api";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "./events.css";
 
-const CONCERT_QUERY = gql`
-  query concertsFindOne($id: ID!) {
-    concert(id: $id) {
-      data {
-        attributes {
-          Price
-          title
-          date
-          time
-          venue
-          state
-          country
-          genre
-          description
-          avatar {
-            data {
-              attributes {
-                formats
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-
-export default function SpecificEvent() {
+export default function SpecificEvent({ loading, setLoading }) {
   const { id } = useParams();
-  const { loading, error, data } = useQuery(CONCERT_QUERY, {
-    variables: { id },
-  });
+  const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const [event, setEvent] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await api.get(`/concerts/${id}`);
+        setEvent(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
 
-  if (loading) return <p>Loading...</p>;
+    fetchEvent();
+  }, []);
+
+  if (!event && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const event = data.concert.data.attributes;
+  const handlePurchase = async () => {
+    try {
+      const currentDate = new Date().toISOString();
 
-  const date = new Date(event.date);
+      const userObject = JSON.parse(localStorage.getItem("userData"));
 
-  const formattedDate = date.toLocaleDateString("en-MY");
+      const userId = userObject?._id;
+      const concertId = event._id;
 
-  const timeString = event.time;
+      const ticketData = {
+        status: "Completed",
+        quantity: selectedQuantity,
+        user: userId,
+        concert: concertId,
+        date: currentDate,
+      };
 
-  const timeParts = timeString.split(":");
+      await api.post("/tickets", ticketData);
 
-  date.setHours(timeParts[0], timeParts[1], timeParts[2]);
+      navigate("/events");
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+    }
+  };
 
-  const formattedTime = date.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
   return (
     <div className="event-style">
       <Box className="box">
@@ -82,10 +81,7 @@ export default function SpecificEvent() {
             bg="rgba(85, 85, 85, 0.5)"
           >
             <CardBody>
-              <Image
-                borderRadius="xl"
-                src={`http://localhost:5000${event?.avatar?.data?.attributes?.formats?.large?.url}`}
-              />
+              <Image borderRadius="xl" src={event.profile} />
               <Flex
                 justifyContent="center"
                 alignItems="flex-start"
@@ -108,13 +104,17 @@ export default function SpecificEvent() {
                   marginRight="10px"
                 />
                 <Text>
-                  {formattedDate} | {formattedTime}
+                  {new Date(event.date).toLocaleDateString("en-MY")} |{" "}
+                  {new Date(event.date).toLocaleTimeString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </Text>
               </Flex>
               <Divider margin="15px 0" />
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Text textAlign="center" maxWidth="60%">
-                  {event.description[0].children[0].text}
+                  {event.description}
                 </Text>
               </Box>
               <Divider margin="15px 0" />
@@ -126,7 +126,7 @@ export default function SpecificEvent() {
                   boxSize="20px"
                   marginRight="10px"
                 />
-                <Text>RM{event.Price} </Text>
+                <Text>RM{event.price} </Text>
                 <Select
                   borderRadius="5px"
                   size="sm"
@@ -134,22 +134,28 @@ export default function SpecificEvent() {
                   maxWidth="15vh"
                   bg="white"
                   color="black"
+                  value={selectedQuantity}
+                  onChange={(e) =>
+                    setSelectedQuantity(parseInt(e.target.value, 10))
+                  }
                 >
-                  <option>0</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
-                  <option>6</option>
-                  <option>7</option>
-                  <option>8</option>
-                  <option>9</option>
-                  <option>10</option>
+                  {[...Array(11).keys()].map((num) => (
+                    <option key={num}>{num}</option>
+                  ))}
                 </Select>
               </Flex>
             </CardBody>
           </Card>
+          <Button
+            bg="brand.100"
+            width="100%"
+            marginTop="20px"
+            _hover={{ bg: "brand.200" }}
+            fontWeight="bold"
+            onClick={handlePurchase}
+          >
+            Purhcase
+          </Button>
         </Stack>
       </Box>
     </div>

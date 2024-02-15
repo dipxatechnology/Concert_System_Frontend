@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Box,
   Flex,
@@ -16,17 +15,39 @@ import {
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { RxAvatar } from "react-icons/rx";
-import { GrDocumentTime } from "react-icons/gr";
 import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
 
 import "./layout.css";
+import api from "../../api/api";
+import Cookies from "js-cookie";
 
 // Define the main component
-export default function Navbar() {
-  const [loggedIn, setLoggedIn] = useState(true);
+export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      // Make an API request to the backend logout endpoint
+      await api.post("/auth/logout");
+
+      // Remove the access token from cookies
+      Cookies.remove("accessToken");
+
+      // Remove the localstorage userdata
+      localStorage.removeItem("userData");
+
+      // Redirect or perform actions after successful logout
+    } catch (error) {
+      console.error("Logout failed:", error.message); // Handle logout failure
+    }
+  };
+
+  const storedData = localStorage.getItem("userData");
+
+  const storedObject = JSON.parse(storedData);
+
   return (
     <div style={{ padding: "15px 50px" }} className="background">
       <Flex alignItems="center">
@@ -45,16 +66,23 @@ export default function Navbar() {
             <>
               <Menu>
                 <MenuButton>
-                  <Avatar size="md" />
+                  <Avatar size="md" src={`${storedObject.profile}`} />
                 </MenuButton>
                 <MenuList background="#333333">
                   <MenuItem background="#333333" color="white">
-                    <Avatar size="md" className="avatar-container" />
-                    *User Name*
+                    <Avatar
+                      size="md"
+                      className="avatar-container"
+                      src={`${storedObject.profile}`}
+                    />
+                    {storedObject.username}
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem
-                    onClick={() => navigate("/profile")}
+                    onClick={() => {
+                      setLoading(true)
+                      navigate(`/profile/${storedObject._id}`);
+                    }}
                     _hover={{ background: "#D45161", color: "black" }}
                     background="#333333"
                     color="white"
@@ -93,7 +121,10 @@ export default function Navbar() {
                     Settings
                   </MenuItem>
                   <MenuItem
-                    onClick={() => setLoggedIn(false)}
+                    onClick={() => {
+                      setLoggedIn(false);
+                      handleLogout();
+                    }}
                     _hover={{ background: "#D45161", color: "black" }}
                     background="#333333"
                     color="white"

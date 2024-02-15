@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 import {
   Text,
   Box,
@@ -10,7 +11,6 @@ import {
   Button,
   HStack,
   IconButton,
-  Select,
   Textarea,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -28,7 +28,7 @@ export default function SignUp() {
   return (
     <div>
       <Box className="signup-style">
-        <VStack alignItems="flex-start" width="30%">
+        <VStack alignItems="flex-start" maxWidthwidth="30%">
           <Text fontSize="5xl" as="b">
             Create an account
           </Text>

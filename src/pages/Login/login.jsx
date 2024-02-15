@@ -12,11 +12,46 @@ import {
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import api from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 
-export default function Login() {
+export default function Login({ setLoggedIn }) {
   const [ show, setShow ] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const handleClick = () => setShow(!show);
+
+  const handleLogin = async () => {
+    try {
+      const loginData = {
+        username,
+        password,
+      };
+  
+      // Make an API request to authenticate the user and obtain a token
+      const response = await api.post("/auth", loginData);
+  
+      // Extract the token and user data from the response
+      const { accessToken, userData } = response.data;
+  
+      // Store the token and user data in a secure manner (e.g., in cookies or local storage)
+      Cookies.set("accessToken", accessToken, { expires: 1 });
+      localStorage.setItem("userData", JSON.stringify(userData));
+  
+      // Set the setLoggedIn to true
+      setLoggedIn(true);
+  
+      // Redirect or perform actions after successful login
+      navigate("/");
+    } catch (error) {
+      console.error("Login failed:", error.message); 
+    }
+  };
+  
+
   return(
     <div 
       style={{ 
@@ -38,11 +73,12 @@ export default function Login() {
             </Link>.
           </Text>
             <Input 
-              placeholder='Email address'
+              placeholder='Username'
               background='#333333' 
               border='none'
               marginTop='40px'
               size='lg'
+              onChange={(e) => setUsername(e.target.value)}
             />
             <InputGroup>
             <Input 
@@ -51,6 +87,7 @@ export default function Login() {
               border='none'
               type={show ? 'text' : 'password'}
               size='lg'
+              onChange={(e) => setPassword(e.target.value)}
             />
             <InputRightElement>
             {show ? 
@@ -82,6 +119,7 @@ export default function Login() {
             marginTop='20px'
             _hover={{ bg: 'brand.200' }}
             fontWeight='bold'
+            onClick={handleLogin}
           >
             Log in
           </Button>
