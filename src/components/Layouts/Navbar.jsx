@@ -80,7 +80,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
                   <MenuDivider />
                   <MenuItem
                     onClick={() => {
-                      setLoading(true)
+                      setLoading(true);
                       navigate(`/profile/${storedObject._id}`);
                     }}
                     _hover={{ background: "#D45161", color: "black" }}
@@ -124,6 +124,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
                     onClick={() => {
                       setLoggedIn(false);
                       handleLogout();
+                      navigate("/");
                     }}
                     _hover={{ background: "#D45161", color: "black" }}
                     background="#333333"
