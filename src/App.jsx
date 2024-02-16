@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -13,12 +13,20 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 import TicketHistory from "./pages/TicketHistory";
-import { useState } from "react";
+
 import "./App.css";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("userData");
+
+    if (userData) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <Routes>
