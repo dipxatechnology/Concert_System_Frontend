@@ -1,4 +1,9 @@
 import { useState } from "react";
+
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import api from "../../api/api";
+
 import {
   Text,
   Box,
@@ -11,10 +16,7 @@ import {
   IconButton,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
-import Cookies from "js-cookie";
-import api from "../../api/api";
-import { useNavigate } from "react-router-dom";
+
 import "./login.css";
 
 export default function Login({ setLoggedIn }) {
