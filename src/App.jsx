@@ -12,6 +12,7 @@ import Faq from "./pages/Faq/faq";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
+import TicketHistory from "./pages/TicketHistory";
 import { useState } from "react";
 import "./App.css";
 

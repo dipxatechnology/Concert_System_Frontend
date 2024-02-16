@@ -23,8 +23,6 @@ import {
   RiMapPin2Fill,
 } from "react-icons/ri";
 
-import "./tickethistory.css";
-
 export default function TicketHistory() {
   return (
     <div>
