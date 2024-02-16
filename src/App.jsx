@@ -25,7 +25,7 @@ export default function App() {
       <Route path="/" element={<MainLayout loggedIn={loggedIn} setLoggedIn={setLoggedIn} loading={loading} setLoading={setLoading}/>}>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login setLoggedIn={setLoggedIn}/>} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
         <Route path="/events" element={<Events setLoading={setLoading} loading={loading}/>} />

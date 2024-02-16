@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   Box,
@@ -14,13 +14,55 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import "./signup.css";
+import api from "../../api/api";
 
-export default function SignUp() {
+export default function SignUp({ setLoggedIn }) {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone_number, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
+  const [postcode, setPostCode] = useState("");
+  const [country, setCountry] = useState("");
+  const [password, setPassword] = useState("");
+  const [secondPassword, setSecondPassword] = useState("");
+
+  useEffect(() => {
+    setUsername(`${firstName} ${lastName}`);
+  }, [firstName, lastName]);
+
+  const handleSignUp = async () => {
+    if (password === secondPassword) {
+      try {
+        const signUpData = {
+          username,
+          password,
+          phone_number,
+          address,
+          postcode,
+          country,
+          email,
+          roles: ["User"],
+          profile: "https://picsum.photos/200",
+        };
+
+        await api.post("/createUser", signUpData);
+
+        navigate("/login");
+      } catch (error) {
+        console.error("Error during user registration:", error);
+      }
+    } else {
+      console.error("Passwords do not match");
+    }
+  };
 
   const handleClick = () => setShow(!show);
   const handleClickConfirm = () => setShowConfirm(!showConfirm);
@@ -48,6 +90,7 @@ export default function SignUp() {
               border="none"
               marginTop="10px"
               size="lg"
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <Input
               placeholder="Last name"
@@ -55,6 +98,7 @@ export default function SignUp() {
               border="none"
               marginTop="10px"
               size="lg"
+              onChange={(e) => setLastName(e.target.value)}
             />
           </HStack>
           <Input
@@ -63,6 +107,7 @@ export default function SignUp() {
             border="none"
             marginTop="5px"
             size="lg"
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <Input
             placeholder="Email Address"
@@ -70,6 +115,7 @@ export default function SignUp() {
             border="none"
             marginTop="5px"
             size="lg"
+            onChange={(e) => setEmail(e.target.value)}
           />
           <Textarea
             placeholder="Residency Address"
@@ -78,6 +124,7 @@ export default function SignUp() {
             marginTop="5px"
             size="lg"
             height="15vh"
+            onChange={(e) => setAddress(e.target.value)}
           />
           <HStack>
             <Input
@@ -87,6 +134,7 @@ export default function SignUp() {
               marginTop="5px"
               size="lg"
               width="40%"
+              onChange={(e) => setPostCode(e.target.value)}
             />
             <Input
               placeholder="Country"
@@ -95,6 +143,7 @@ export default function SignUp() {
               marginTop="5px"
               size="lg"
               width="60%"
+              onChange={(e) => setCountry(e.target.value)}
             />
           </HStack>
           <InputGroup>
@@ -105,6 +154,7 @@ export default function SignUp() {
               type={show ? "text" : "password"}
               size="lg"
               marginTop="5px"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <InputRightElement marginTop="8px">
               {show ? (
@@ -130,6 +180,7 @@ export default function SignUp() {
               type={show ? "text" : "password"}
               size="lg"
               marginTop="5px"
+              onChange={(e) => setSecondPassword(e.target.value)}
             />
             <InputRightElement marginTop="8px">
               {showConfirm ? (
@@ -167,6 +218,7 @@ export default function SignUp() {
             marginTop="20px"
             _hover={{ bg: "brand.200" }}
             fontWeight="bold"
+            onClick={() => handleSignUp()}
           >
             Create account
           </Button>
