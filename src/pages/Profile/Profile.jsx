@@ -1,3 +1,7 @@
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import api from "../../api/api";
+
 import {
   Text,
   Avatar,
@@ -14,21 +18,26 @@ import {
   CardFooter,
   CardBody,
   Stack,
+  Modal,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  IconButton,
 } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
 import {
   RiCalendarEventLine,
   RiSearch2Line,
   RiMapPin2Fill,
+  RiFilter2Fill,
 } from "react-icons/ri";
+
 import "./profile.css";
-import { useParams } from "react-router-dom";
-import api from "../../api/api";
 
 export default function Profile({ setLoading, loading }) {
   const { id } = useParams();
   const [userProfile, setUserProfile] = useState(null);
   const [error, setError] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -47,6 +56,15 @@ export default function Profile({ setLoading, loading }) {
 
   if (!userProfile && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
+  const allEvents = userProfile.ticket;
+  const filteredEvents = searchQuery
+    ? allEvents.filter(
+        (event) =>
+          event.concert.title &&
+          event.concert.title.toLowerCase().includes(searchQuery.toLowerCase())
+      )
+    : allEvents;
 
   return (
     <div className="container">
@@ -76,24 +94,43 @@ export default function Profile({ setLoading, loading }) {
           fontSize="18px"
         >
           <Icon as={RiCalendarEventLine} marginRight="10px" boxSize="20px" />
-          {`Events: ${userProfile.ticket.length}`}
+          {`Events: ${filteredEvents.length}`}
         </Button>
         <Spacer />
-        <Button
+        <InputGroup width="35vh">
+          <InputLeftElement pointerEvents="none">
+            <Icon as={RiSearch2Line} boxSize="20px" />
+          </InputLeftElement>
+          <Input
+            placeholder="Search ticket"
+            fontWeight="600"
+            background="#333333"
+            marginRight="2vh"
+            size="md"
+            borderRadius="10px"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </InputGroup>
+        <IconButton
           bg="brand.100"
           _hover={{ bg: "brand.200" }}
           fontWeight="bold"
-          padding="15px"
-          marginRight="4vh"
-          size="sm"
+          padding="8px"
+          size="md"
+          borderRadius="10px"
         >
-          <Icon as={RiSearch2Line} marginRight="10px" boxSize="20px" />
-          Search ticket
-        </Button>
+          {<RiFilter2Fill size="lg" />}
+        </IconButton>
       </Flex>
       <Divider margin="15px 0 35px" />
+      {filteredEvents.length === 0 && searchQuery && (
+        <Text color="#FFFFFF80" fontSize="lg">
+          No events found matching "{searchQuery}"
+        </Text>
+      )}
       <SimpleGrid columns={3} spacing={10}>
-        {userProfile.ticket.map((ticket, index) => (
+        {filteredEvents.map((ticket, index) => (
           <Card key={index} bg="Foreground" color="white" borderRadius="10px">
             <CardHeader>
               <Text fontWeight="600" fontSize="xl">
@@ -123,7 +160,11 @@ export default function Profile({ setLoading, loading }) {
             </CardBody>
             <Divider color="grey" />
             <CardFooter>
-              <Flex justifyContent="flex-start" alignItems="center" width="100%">
+              <Flex
+                justifyContent="flex-start"
+                alignItems="center"
+                width="100%"
+              >
                 <Text>Ticket Status:</Text>
                 <Spacer />
                 <Text color="brand.100">{ticket.status}</Text>

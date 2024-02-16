@@ -19,7 +19,9 @@ import { IoSettingsOutline, IoLogOutOutline } from "react-icons/io5";
 
 import { Link, useNavigate } from "react-router-dom";
 
+import logo from "../../assets/logo_dark.svg";
 import "./layout.css";
+
 import api from "../../api/api";
 import Cookies from "js-cookie";
 
@@ -51,7 +53,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
   return (
     <div style={{ padding: "15px 50px" }} className="background">
       <Flex alignItems="center">
-        <Image src="src/assets/logo_dark.svg" boxSize={"60px"} />
+        <Image src={logo} boxSize={"60px"} />
         <Spacer />
         <DesktopNav />
         <Spacer />
