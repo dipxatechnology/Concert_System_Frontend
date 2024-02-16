@@ -27,6 +27,7 @@ export default function Settings() {
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [currentUsername, setCurrentUsername] = useState(null);
+  const [profile, setProfile] = useState("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -58,6 +59,7 @@ export default function Settings() {
     let userData = localStorage.getItem("userData");
     userData = JSON.parse(userData);
     setCurrentUsername(userData.username);
+    setProfile(userData.profile);
   }, []);
 
   const handleSave = async (e) => {
@@ -135,7 +137,7 @@ export default function Settings() {
               </Text>
               <Divider margin="5px 0" />
               <Box className="box-diff-margin">
-                <Avatar size="2xl" />
+                <Avatar size="2xl" src={profile} />
               </Box>
               <Text fontSize="lg" fontWeight="600" mt="10vh">
                 Password
