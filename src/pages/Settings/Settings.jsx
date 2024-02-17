@@ -21,8 +21,12 @@ import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import api from "../../api/api";
 
 import "./settings.css";
+import { json, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 export default function Settings() {
+  const navigate = useNavigate();
+  const [newUserData, setUserData] = useState({});
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -58,13 +62,16 @@ export default function Settings() {
   useEffect(() => {
     let userData = localStorage.getItem("userData");
     userData = JSON.parse(userData);
+    setUserData(userData);
     setCurrentUsername(userData.username);
     setProfile(userData.profile);
   }, []);
 
   const handleSave = async (e) => {
     e.preventDefault();
+    const id = newUserData._id;
     let updateData = {
+      id,
       ...(username && { username }),
       ...(phone_number && { phone_number }),
       ...(address && { address }),
@@ -73,31 +80,51 @@ export default function Settings() {
       ...(email && { email }),
     };
 
-    // Only authenticate if the old password input is not empty
-    if (oldPassword) {
-      // Make an API request to authenticate the user with the old password
-      const response = await api.post("/auth", {
-        username: currentUsername,
-        password: oldPassword,
+    try {
+      // Only authenticate if the old password input is not empty
+      if (oldPassword) {
+        // Make an API request to authenticate the user with the old password
+        const response = await api.post("/auth", {
+          username: currentUsername,
+          password: oldPassword,
+        });
+
+        // If the old password is incorrect, the API should return an error
+        if (response.error) {
+          console.error("Old password is incorrect.");
+          return;
+        }
+
+        // Check if the new password and the confirmation password match
+        if (password === secondPassword) {
+          updateData = { ...updateData, password };
+        } else {
+          console.error("New passwords do not match.");
+          return;
+        }
+      }
+
+      console.log(updateData);
+      await api.patch("/users", updateData);
+
+      const signUpResponse = await api.post("/auth", {
+        username: updateData.username,
+        password: updateData.password,
       });
 
-      // If the old password is incorrect, the API should return an error
-      if (response.error) {
-        console.error("Old password is incorrect.");
-        return;
+      const { accessToken, userData } = signUpResponse.data;
+
+      // Check if the accessToken already exists in Cookies
+      if (!Cookies.get("accessToken")) {
+        Cookies.set("accessToken", accessToken, { expires: 1 });
       }
 
-      // Check if the new password and the confirmation password match
-      if (password === secondPassword) {
-        updateData = { ...updateData, password };
-      } else {
-        console.error("New passwords do not match.");
-        return;
+      // Check if the userData already exists in Local Storage
+      if (!localStorage.getItem("userData")) {
+        localStorage.setItem("userData", JSON.stringify(userData));
       }
-    }
 
-    try {
-      await api.patch("/updateUser", updateData);
+      navigate("/");
     } catch (error) {
       console.error("Error saving new changes:", error);
     }

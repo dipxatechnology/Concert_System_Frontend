@@ -26,13 +26,13 @@ export default function Login({ setLoggedIn }) {
   const navigate = useNavigate();
   const handleClick = () => setShow(!show);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  const handleLogin = async () => {
     try {
       const loginData = {
         username,
         password,
       };
+      console.log(loginData)
 
       // Make an API request to authenticate the user and obtain a token
       const response = await api.post("/auth", loginData);
@@ -64,7 +64,10 @@ export default function Login({ setLoggedIn }) {
       }}
     >
       <Box className="login-style">
-        <form onSubmit={handleLogin}>
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          handleLogin()
+          }}>
           <VStack alignItems="flex-start">
             <Text fontSize="5xl" as="b">
               Welcome back!
@@ -121,7 +124,6 @@ export default function Login({ setLoggedIn }) {
               marginTop="20px"
               _hover={{ bg: "brand.200" }}
               fontWeight="bold"
-              onClick={handleLogin}
             >
               Log in
             </Button>
