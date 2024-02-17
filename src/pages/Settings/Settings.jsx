@@ -115,13 +115,23 @@ export default function Settings() {
       const { accessToken, userData } = signUpResponse.data;
 
       // Check if the accessToken already exists in Cookies
-      if (!Cookies.get("accessToken")) {
+      if (Cookies.get("accessToken")) {
+        // If accessToken already exists, update it
+        Cookies.set("accessToken", accessToken, { expires: 1 });
+      } else {
         Cookies.set("accessToken", accessToken, { expires: 1 });
       }
 
       // Check if the userData already exists in Local Storage
       if (!localStorage.getItem("userData")) {
         localStorage.setItem("userData", JSON.stringify(userData));
+      } else {
+        // If userData already exists, update it
+        const existingUserData = JSON.parse(localStorage.getItem("userData"));
+        localStorage.setItem(
+          "userData",
+          JSON.stringify({ ...existingUserData, ...userData })
+        );
       }
 
       navigate("/");
