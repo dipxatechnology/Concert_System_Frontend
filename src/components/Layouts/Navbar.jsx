@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
   MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { RxAvatar } from "react-icons/rx";
@@ -28,6 +29,7 @@ import Cookies from "js-cookie";
 // Define the main component
 export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleLogout = async () => {
     try {
@@ -41,8 +43,27 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
       localStorage.removeItem("userData");
 
       // Redirect or perform actions after successful logout
+      navigate('/')
+
+      toast({
+        title: "Logged Out.",
+        description: "Have a good day.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     } catch (error) {
-      console.error("Logout failed:", error.message); // Handle logout failure
+      console.error("Logout failed:", error.message);
+
+      toast({
+        title: "Error.",
+        description: "An Error Occured.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     }
   };
 

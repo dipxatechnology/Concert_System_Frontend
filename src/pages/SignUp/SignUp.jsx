@@ -11,6 +11,7 @@ import {
   HStack,
   IconButton,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link, useNavigate } from "react-router-dom";
@@ -32,6 +33,7 @@ export default function SignUp({ setLoggedIn }) {
   const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     setUsername(`${firstName} ${lastName}`);
@@ -56,11 +58,38 @@ export default function SignUp({ setLoggedIn }) {
         await api.post("/createUser", signUpData);
 
         navigate("/login");
+
+        toast({
+          title: "Account Created Successfully.",
+          description: "Please Log In.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       } catch (error) {
         console.error("Error during user registration:", error);
+
+        toast({
+          title: "Error.",
+          description: `An Error Occured : ${error}.`,
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+          position: "bottom-right",
+        });
       }
     } else {
       console.error("Passwords do not match");
+
+      toast({
+        title: "Error.",
+        description: "Password does not match.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     }
   };
 

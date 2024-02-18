@@ -42,7 +42,7 @@ export default function App() {
         }
       >
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
+        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
         <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />

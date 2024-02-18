@@ -14,16 +14,18 @@ import {
   Checkbox,
   Button,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import "./login.css";
 
-export default function Login({ setLoggedIn }) {
+export default function Login({ setLoggedIn, loggedIn }) {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const toast = useToast();
   const handleClick = () => setShow(!show);
 
   const handleLogin = async () => {
@@ -32,7 +34,7 @@ export default function Login({ setLoggedIn }) {
         username,
         password,
       };
-      console.log(loginData)
+      console.log(loginData);
 
       // Make an API request to authenticate the user and obtain a token
       const response = await api.post("/auth", loginData);
@@ -49,8 +51,25 @@ export default function Login({ setLoggedIn }) {
 
       // Redirect or perform actions after successful login
       navigate("/");
+
+      toast({
+        title: "Logged In.",
+        description: "Welcome back.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     } catch (error) {
       console.error("Login failed:", error.message);
+      toast({
+        title: "Error.",
+        description: "An Error Occured.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     }
   };
 
@@ -64,10 +83,12 @@ export default function Login({ setLoggedIn }) {
       }}
     >
       <Box className="login-style">
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          handleLogin()
-          }}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleLogin();
+          }}
+        >
           <VStack alignItems="flex-start">
             <Text fontSize="5xl" as="b">
               Welcome back!

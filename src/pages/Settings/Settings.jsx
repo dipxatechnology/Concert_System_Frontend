@@ -16,6 +16,7 @@ import {
   IconButton,
   Stack,
   HStack,
+  useToast,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import api from "../../api/api";
@@ -26,7 +27,8 @@ import Cookies from "js-cookie";
 
 export default function Settings() {
   const navigate = useNavigate();
-  const [newUserData, setUserData] = useState({});
+  const toast = useToast();
+  const [newUserData, setNewUserData] = useState({});
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
@@ -49,6 +51,34 @@ export default function Settings() {
     setUsername(`${firstName} ${lastName}`);
   }, [firstName, lastName]);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const userObject = JSON.parse(localStorage.getItem("userData"));
+        const response = await api.get(`/users/${userObject._id}`);
+        const { firstName, lastName } = splitFullName(response.data.username);
+        setFirstName(firstName)
+        setLastName(lastName)
+        setPhoneNumber(response.data.phone_number)
+        setEmail(response.data.email)
+        setAddress(response.data.address)
+        setPostCode(response.data.postcode)
+        setCountry(response.data.country)
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    const splitFullName = (fullName) => {
+      const nameParts = fullName.split(' ');
+      const firstName = nameParts[0];
+      const lastName = nameParts.slice(1).join(' ');
+      return { firstName, lastName };
+    };
+
+    fetchUserData();
+  }, []);
+
   const handleClick = (passType) => {
     if (passType === "old") {
       setShowOldPass(!showOldPass);
@@ -62,7 +92,7 @@ export default function Settings() {
   useEffect(() => {
     let userData = localStorage.getItem("userData");
     userData = JSON.parse(userData);
-    setUserData(userData);
+    setNewUserData(userData);
     setCurrentUsername(userData.username);
     setProfile(userData.profile);
   }, []);
@@ -135,6 +165,15 @@ export default function Settings() {
       }
 
       navigate("/");
+
+      toast({
+        title: "User Info Updated.",
+        description: "Hope you like your new look.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     } catch (error) {
       console.error("Error saving new changes:", error);
     }

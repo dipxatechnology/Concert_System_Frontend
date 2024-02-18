@@ -11,6 +11,7 @@ import {
   Divider,
   Select,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { FaTicket, FaLocationDot } from "react-icons/fa6";
@@ -22,6 +23,7 @@ import "./events.css";
 export default function SpecificEvent({ loading, setLoading }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const toast = useToast();
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
@@ -64,8 +66,26 @@ export default function SpecificEvent({ loading, setLoading }) {
       await api.post("/tickets", ticketData);
 
       navigate("/events");
+
+      toast({
+        title: "Succesfully Purchased.",
+        description: "Thank you for purchasing from us.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     } catch (error) {
       console.error("An error occurred:", error.message);
+      
+      toast({
+        title: "Error.",
+        description: "An Error Occured.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     }
   };
 
