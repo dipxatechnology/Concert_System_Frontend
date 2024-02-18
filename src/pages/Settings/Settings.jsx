@@ -17,8 +17,17 @@ import {
   Stack,
   HStack,
   useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { AnimCursor } from "../../components/AnimCursor";
 import api from "../../api/api";
 
 import "./settings.css";
@@ -28,12 +37,14 @@ import Cookies from "js-cookie";
 export default function Settings() {
   const navigate = useNavigate();
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [newUserData, setNewUserData] = useState({});
   const [showOldPass, setShowOldPass] = useState(false);
   const [showNewPass, setShowNewPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [currentUsername, setCurrentUsername] = useState(null);
   const [profile, setProfile] = useState("");
+  const [tempProfile, setTempProfile] = useState("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -57,22 +68,22 @@ export default function Settings() {
         const userObject = JSON.parse(localStorage.getItem("userData"));
         const response = await api.get(`/users/${userObject._id}`);
         const { firstName, lastName } = splitFullName(response.data.username);
-        setFirstName(firstName)
-        setLastName(lastName)
-        setPhoneNumber(response.data.phone_number)
-        setEmail(response.data.email)
-        setAddress(response.data.address)
-        setPostCode(response.data.postcode)
-        setCountry(response.data.country)
+        setFirstName(firstName);
+        setLastName(lastName);
+        setPhoneNumber(response.data.phone_number);
+        setEmail(response.data.email);
+        setAddress(response.data.address);
+        setPostCode(response.data.postcode);
+        setCountry(response.data.country);
       } catch (error) {
         console.error("Error:", error);
       }
     };
 
     const splitFullName = (fullName) => {
-      const nameParts = fullName.split(' ');
+      const nameParts = fullName.split(" ");
       const firstName = nameParts[0];
-      const lastName = nameParts.slice(1).join(' ');
+      const lastName = nameParts.slice(1).join(" ");
       return { firstName, lastName };
     };
 
@@ -95,7 +106,12 @@ export default function Settings() {
     setNewUserData(userData);
     setCurrentUsername(userData.username);
     setProfile(userData.profile);
+    setTempProfile(userData.profile)
   }, []);
+
+  const handleProfileSave = async () => {
+    setProfile(tempProfile);
+  }
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -108,6 +124,7 @@ export default function Settings() {
       ...(postcode && { postcode }),
       ...(country && { country }),
       ...(email && { email }),
+      ...(profile && { profile }),
     };
 
     try {
@@ -213,7 +230,37 @@ export default function Settings() {
               </Text>
               <Divider margin="5px 0" />
               <Box className="box-diff-margin">
-                <Avatar size="2xl" src={profile} />
+                <Avatar size="2xl" src={tempProfile} onClick={onOpen} />
+                <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
+                  <ModalOverlay />
+                  <ModalContent bg="#222222">
+                    <AnimCursor />
+                    <ModalHeader color="white">Avatar Link</ModalHeader>
+                    <ModalCloseButton color="white"/>
+                    <ModalBody>
+                      <Input
+                        background="#333333"
+                        border="none"
+                        size="lg"
+                        borderRadius="10px"
+                        color="white"
+                        value={tempProfile}
+                        onChange={(e) => setTempProfile(e.target.value)}
+                      />
+                    </ModalBody>
+                    <ModalFooter>
+                      <Button colorScheme="red" mr={3} onClick={() => {
+                        handleProfileSave();
+                        onClose();
+                        }}>
+                        Save
+                      </Button>
+                      <Button colorScheme="red" onClick={onClose}>
+                        Close
+                      </Button>
+                    </ModalFooter>
+                  </ModalContent>
+                </Modal>
               </Box>
               <Text fontSize="lg" fontWeight="600" mt="10vh">
                 Password
