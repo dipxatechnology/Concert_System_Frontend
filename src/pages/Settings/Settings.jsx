@@ -25,6 +25,7 @@ import {
   ModalFooter,
   ModalBody,
   ModalCloseButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { AnimCursor } from "../../components/AnimCursor";
@@ -106,12 +107,12 @@ export default function Settings() {
     setNewUserData(userData);
     setCurrentUsername(userData.username);
     setProfile(userData.profile);
-    setTempProfile(userData.profile)
+    setTempProfile(userData.profile);
   }, []);
 
   const handleProfileSave = async () => {
     setProfile(tempProfile);
-  }
+  };
 
   const handleSave = async (e) => {
     e.preventDefault();
@@ -230,13 +231,15 @@ export default function Settings() {
               </Text>
               <Divider margin="5px 0" />
               <Box className="box-diff-margin">
-                <Avatar size="2xl" src={tempProfile} onClick={onOpen} />
+                <Tooltip label="Edit" placement="right">
+                  <Avatar size="2xl" src={tempProfile} onClick={onOpen} />
+                </Tooltip>
                 <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
                   <ModalOverlay />
                   <ModalContent bg="#222222">
                     <AnimCursor />
                     <ModalHeader color="white">Avatar Link</ModalHeader>
-                    <ModalCloseButton color="white"/>
+                    <ModalCloseButton color="white" />
                     <ModalBody>
                       <Input
                         background="#333333"
@@ -249,10 +252,14 @@ export default function Settings() {
                       />
                     </ModalBody>
                     <ModalFooter>
-                      <Button colorScheme="red" mr={3} onClick={() => {
-                        handleProfileSave();
-                        onClose();
-                        }}>
+                      <Button
+                        colorScheme="red"
+                        mr={3}
+                        onClick={() => {
+                          handleProfileSave();
+                          onClose();
+                        }}
+                      >
                         Save
                       </Button>
                       <Button colorScheme="red" onClick={onClose}>
