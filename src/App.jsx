@@ -13,8 +13,15 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 import TicketHistory from "./pages/TicketHistory";
+import AdminPage from "./pages/AdminUser";
+import AdminInfoPage from "./pages/AdminInfoPage";
+import AdminTicketInfoPage from "./pages/AdminTicketInfoPage";
+import AdminArtistInfoPage from "./pages/AdminArtistInfoPage";
+import AdminConcertInfoPage from "./pages/AdminConcertInfoPage";
 
 import "./App.css";
+import AdminFeedbackInfoPage from "./pages/AdminFeedbackInfoPage";
+
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -61,6 +68,12 @@ export default function App() {
           path="/events/:id"
           element={<SpecificEvent setLoading={setLoading} loading={loading} />}
         />
+        <Route path="/adminUser" element={<AdminPage setLoading={setLoading} />}/>
+        <Route path="/adminInfoPage/:id" element={<AdminInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/adminTicketInfoPage/:id" element={<AdminTicketInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminArtistInfoPage/:id" element={<AdminArtistInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminConcertInfoPage/:id" element={<AdminConcertInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminFeedbackInfoPage/:id" element={<AdminFeedbackInfoPage setLoading={setLoading} loading={loading} />}/>
       </Route>
     </Routes>
   );
