@@ -152,7 +152,6 @@ export default function Settings() {
         }
       }
 
-      console.log(updateData);
       await api.patch("/users", updateData);
 
       const signUpResponse = await api.post("/auth", {

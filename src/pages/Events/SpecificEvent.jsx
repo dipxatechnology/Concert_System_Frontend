@@ -27,7 +27,7 @@ export default function SpecificEvent({ loading, setLoading }) {
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
-  
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -77,7 +77,7 @@ export default function SpecificEvent({ loading, setLoading }) {
       });
     } catch (error) {
       console.error("An error occurred:", error.message);
-      
+
       toast({
         title: "Error.",
         description: "An Error Occured.",
@@ -168,13 +168,13 @@ export default function SpecificEvent({ loading, setLoading }) {
           </Card>
           <Button
             bg="brand.100"
-            width="100%"
+            width="80%"
             marginTop="20px"
             _hover={{ bg: "brand.200" }}
             fontWeight="bold"
             onClick={handlePurchase}
           >
-            Purhcase
+            Buy now
           </Button>
         </Stack>
       </Box>
