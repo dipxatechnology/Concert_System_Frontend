@@ -158,25 +158,13 @@ export default function PurchaseDetails({ setLoading, loading }) {
                   Artist Details
                 </Text>
               </Flex>
-              <Flex
-                justifyContent="flex-start"
-                alignItems="center"
-                marginTop="5px"
-              >
+              <Flex justifyContent="center" alignItems="center" marginTop="5px">
                 <Text>Name: {artist.username}</Text>
               </Flex>
-              <Flex
-                justifyContent="flex-start"
-                alignItems="center"
-                marginTop="5px"
-              >
+              <Flex justifyContent="center" alignItems="center" marginTop="5px">
                 <Text>Biography: {artist.bio}</Text>
               </Flex>
-              <Flex
-                justifyContent="flex-start"
-                alignItems="center"
-                marginTop="5px"
-              >
+              <Flex justifyContent="center" alignItems="center" marginTop="5px">
                 <Text>Genre: {artist.genre.map(toTitleCase).join(", ")}</Text>
               </Flex>
               <Divider margin="15px 0" />
