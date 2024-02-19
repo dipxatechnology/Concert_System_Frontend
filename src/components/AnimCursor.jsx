@@ -24,7 +24,8 @@ export const AnimCursor = () => {
         'select',
         'textarea',
         'button',
-        '.link'
+        '.link',
+        'Input'
       ]}
     />
   )
