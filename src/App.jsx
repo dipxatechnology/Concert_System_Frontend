@@ -13,6 +13,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 import TicketHistory from "./pages/TicketHistory";
+import PurchaseDetails from "./pages/Profile/PurchaseDetails";
 
 import "./App.css";
 
@@ -42,7 +43,10 @@ export default function App() {
         }
       >
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
+        <Route
+          path="/login"
+          element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />}
+        />
         <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
@@ -54,6 +58,12 @@ export default function App() {
         <Route
           path="/profile/:id"
           element={<Profile setLoading={setLoading} loading={loading} />}
+        />
+        <Route
+          path="/purchase-details/:id"
+          element={
+            <PurchaseDetails setLoading={setLoading} loading={loading} />
+          }
         />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ticket-history" element={<TicketHistory />} />

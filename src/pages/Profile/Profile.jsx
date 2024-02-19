@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import api from "../../api/api";
 
 import {
@@ -24,12 +24,12 @@ import {
   InputLeftElement,
   IconButton,
 } from "@chakra-ui/react";
-import {
-  RiCalendarEventLine,
-  RiSearch2Line,
-  RiMapPin2Fill,
-  RiFilter2Fill,
-} from "react-icons/ri";
+
+import { CalendarIcon } from "@chakra-ui/icons";
+
+import { RiSearch2Line } from "react-icons/ri";
+
+import { FaTicket, FaLocationDot } from "react-icons/fa6";
 
 import "./profile.css";
 
@@ -66,6 +66,14 @@ export default function Profile({ setLoading, loading }) {
       )
     : allEvents;
 
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+
+  console.log(filteredEvents);
+
   return (
     <div className="container">
       <Flex>
@@ -93,7 +101,7 @@ export default function Profile({ setLoading, loading }) {
           justifyContent="left"
           fontSize="18px"
         >
-          <Icon as={RiCalendarEventLine} marginRight="10px" boxSize="20px" />
+          <CalendarIcon marginRight="10px" boxSize="20px" />
           {`Events: ${filteredEvents.length}`}
         </Button>
         <Spacer />
@@ -112,16 +120,6 @@ export default function Profile({ setLoading, loading }) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </InputGroup>
-        <IconButton
-          bg="brand.100"
-          _hover={{ bg: "brand.200" }}
-          fontWeight="bold"
-          padding="8px"
-          size="md"
-          borderRadius="10px"
-        >
-          {<RiFilter2Fill size="lg" />}
-        </IconButton>
       </Flex>
       <Divider margin="15px 0 35px" />
       {filteredEvents.length === 0 && searchQuery && (
@@ -129,50 +127,87 @@ export default function Profile({ setLoading, loading }) {
           No events found matching "{searchQuery}"
         </Text>
       )}
-      <SimpleGrid columns={3} spacing={10}>
-        {filteredEvents.map((ticket, index) => (
-          <Card key={index} bg="Foreground" color="white" borderRadius="10px">
-            <CardHeader>
-              <Text fontWeight="600" fontSize="xl">
-                {ticket.concert.title}
-              </Text>
-            </CardHeader>
-            <CardBody>
-              <Flex alignItems="center">
-                <Icon
-                  as={RiCalendarEventLine}
-                  boxSize="20px"
-                  marginRight="10px"
-                />
-                <Stack spacing="0">
-                  <Text>
-                    Date: {new Date(ticket.concert.date).toLocaleDateString()}
-                  </Text>
-                  <Text color="grey">
-                    Time: {new Date(ticket.concert.date).toLocaleTimeString()}
-                  </Text>
-                </Stack>
-              </Flex>
-              <Flex alignItems="center" mt="15px">
-                <Icon as={RiMapPin2Fill} boxSize="20px" marginRight="10px" />
-                <Text>{ticket.concert.venue}</Text>
-              </Flex>
-            </CardBody>
-            <Divider color="grey" />
-            <CardFooter>
-              <Flex
-                justifyContent="flex-start"
-                alignItems="center"
-                width="100%"
+      {filteredEvents.map((event) => (
+        <Link
+          to={`/purchase-details/${event._id}`}
+          key={event._id}
+          onClick={() => setLoading(true)}
+        >
+          <SimpleGrid columns={3} spacing={10}>
+            {filteredEvents.map((ticket, index) => (
+              <Card
+                key={index}
+                bg="Foreground"
+                color="white"
+                borderRadius="10px"
               >
-                <Text>Ticket Status:</Text>
-                <Spacer />
-                <Text color="brand.100">{ticket.status}</Text>
-              </Flex>
-            </CardFooter>
-          </Card>
-        ))}
-      </SimpleGrid>
+                <CardHeader>
+                  <Text fontWeight="600" fontSize="2xl" color="brand.100">
+                    {toTitleCase(ticket.concert.title)}
+                  </Text>
+                </CardHeader>
+                <CardBody>
+                  <Flex alignItems="center" mt="-20px">
+                    <CalendarIcon
+                      color="brand.100"
+                      boxSize="20px"
+                      marginRight="10px"
+                    />
+                    <Stack spacing="0">
+                      <Text>
+                        Date:{" "}
+                        {new Date(ticket.concert.date).toLocaleDateString()}
+                      </Text>
+                      <Text color="grey">
+                        Time:{" "}
+                        {new Date(ticket.concert.date).toLocaleTimeString(
+                          "en-US",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          }
+                        )}
+                      </Text>
+                    </Stack>
+                  </Flex>
+                  <Flex alignItems="center" mt="15px">
+                    <Icon
+                      color="brand.100"
+                      as={FaLocationDot}
+                      boxSize="20px"
+                      marginRight="10px"
+                    />
+                    <Text>{toTitleCase(ticket.concert.venue)}</Text>
+                  </Flex>
+                  <Flex alignItems="center" mt="15px">
+                    <Icon
+                      color="brand.100"
+                      as={FaTicket}
+                      boxSize="20px"
+                      marginRight="10px"
+                    />
+                    <Text>
+                      {ticket.concert.genre.map(toTitleCase).join(", ")}
+                    </Text>
+                  </Flex>
+                </CardBody>
+                <Divider color="grey" />
+                <CardFooter>
+                  <Flex
+                    justifyContent="flex-start"
+                    alignItems="center"
+                    width="100%"
+                  >
+                    <Text>Ticket Status:</Text>
+                    <Spacer />
+                    <Text color="brand.100">{ticket.status}</Text>
+                  </Flex>
+                </CardFooter>
+              </Card>
+            ))}
+          </SimpleGrid>
+        </Link>
+      ))}
     </div>
   );
 }
