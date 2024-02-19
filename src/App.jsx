@@ -14,6 +14,8 @@ import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 import TicketHistory from "./pages/TicketHistory";
 import PurchaseDetails from "./pages/Profile/PurchaseDetails";
+import Terms from "./pages/Terms";
+import Policy from "./pages/Policy";
 
 import "./App.css";
 
@@ -71,6 +73,8 @@ export default function App() {
           path="/events/:id"
           element={<SpecificEvent setLoading={setLoading} loading={loading} />}
         />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/policy" element={<Policy />} />
       </Route>
     </Routes>
   );
