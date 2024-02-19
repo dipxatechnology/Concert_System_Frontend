@@ -127,87 +127,77 @@ export default function Profile({ setLoading, loading }) {
           No events found matching "{searchQuery}"
         </Text>
       )}
-      {filteredEvents.map((event) => (
-        <Link
-          to={`/purchase-details/${event._id}`}
-          key={event._id}
-          onClick={() => setLoading(true)}
-        >
-          <SimpleGrid columns={3} spacing={10}>
-            {filteredEvents.map((ticket, index) => (
-              <Card
-                key={index}
-                bg="Foreground"
-                color="white"
-                borderRadius="10px"
-              >
-                <CardHeader>
-                  <Text fontWeight="600" fontSize="2xl" color="brand.100">
-                    {toTitleCase(ticket.concert.title)}
-                  </Text>
-                </CardHeader>
-                <CardBody>
-                  <Flex alignItems="center" mt="-20px">
-                    <CalendarIcon
-                      color="brand.100"
-                      boxSize="20px"
-                      marginRight="10px"
-                    />
-                    <Stack spacing="0">
-                      <Text>
-                        Date:{" "}
-                        {new Date(ticket.concert.date).toLocaleDateString()}
-                      </Text>
-                      <Text color="grey">
-                        Time:{" "}
-                        {new Date(ticket.concert.date).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </Text>
-                    </Stack>
-                  </Flex>
-                  <Flex alignItems="center" mt="15px">
-                    <Icon
-                      color="brand.100"
-                      as={FaLocationDot}
-                      boxSize="20px"
-                      marginRight="10px"
-                    />
-                    <Text>{toTitleCase(ticket.concert.venue)}</Text>
-                  </Flex>
-                  <Flex alignItems="center" mt="15px">
-                    <Icon
-                      color="brand.100"
-                      as={FaTicket}
-                      boxSize="20px"
-                      marginRight="10px"
-                    />
+      <SimpleGrid columns={3} spacing={10} mb="5vh">
+        {filteredEvents.map((event) => (
+          <Link
+            to={`/purchase-details/${event._id}`}
+            key={event._id}
+            onClick={() => setLoading(true)}
+          >
+            <Card bg="Foreground" color="white" borderRadius="10px">
+              <CardHeader>
+                <Text fontWeight="600" fontSize="2xl" color="brand.100">
+                  {toTitleCase(event.concert.title)}
+                </Text>
+              </CardHeader>
+              <CardBody>
+                <Flex alignItems="center" mt="-20px">
+                  <CalendarIcon
+                    color="brand.100"
+                    boxSize="20px"
+                    marginRight="10px"
+                  />
+                  <Stack spacing="0">
                     <Text>
-                      {ticket.concert.genre.map(toTitleCase).join(", ")}
+                      Date: {new Date(event.concert.date).toLocaleDateString()}
                     </Text>
-                  </Flex>
-                </CardBody>
-                <Divider color="grey" />
-                <CardFooter>
-                  <Flex
-                    justifyContent="flex-start"
-                    alignItems="center"
-                    width="100%"
-                  >
-                    <Text>Ticket Status:</Text>
-                    <Spacer />
-                    <Text color="brand.100">{ticket.status}</Text>
-                  </Flex>
-                </CardFooter>
-              </Card>
-            ))}
-          </SimpleGrid>
-        </Link>
-      ))}
+                    <Text color="grey">
+                      Time:{" "}
+                      {new Date(event.concert.date).toLocaleTimeString(
+                        "en-US",
+                        {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        }
+                      )}
+                    </Text>
+                  </Stack>
+                </Flex>
+                <Flex alignItems="center" mt="15px">
+                  <Icon
+                    color="brand.100"
+                    as={FaLocationDot}
+                    boxSize="20px"
+                    marginRight="10px"
+                  />
+                  <Text>{toTitleCase(event.concert.venue)}</Text>
+                </Flex>
+                <Flex alignItems="center" mt="15px">
+                  <Icon
+                    color="brand.100"
+                    as={FaTicket}
+                    boxSize="20px"
+                    marginRight="10px"
+                  />
+                  <Text>{event.concert.genre.map(toTitleCase).join(", ")}</Text>
+                </Flex>
+              </CardBody>
+              <Divider color="grey" />
+              <CardFooter>
+                <Flex
+                  justifyContent="flex-start"
+                  alignItems="center"
+                  width="100%"
+                >
+                  <Text>Ticket Status:</Text>
+                  <Spacer />
+                  <Text color="brand.100">{event.status}</Text>
+                </Flex>
+              </CardFooter>
+            </Card>
+          </Link>
+        ))}
+      </SimpleGrid>
     </div>
   );
 }
