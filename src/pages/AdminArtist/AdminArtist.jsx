@@ -47,6 +47,7 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
   // Handle page navigation
   const goToPage = (page) => {
     setCurrentPage(page);
+    setLoading(true);
   };
 
   const handleRowClick = (id) => {
