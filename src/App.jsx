@@ -44,7 +44,7 @@ export default function App() {
           />
         }
       >
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home loggedIn={loggedIn} />} />
         <Route
           path="/login"
           element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />}

@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Container,
   Stack,
@@ -14,6 +13,7 @@ import { Link } from "react-router-dom";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export default function Hero({ loggedIn }) {
+  console.log(loggedIn);
   return (
     <Container maxW={"7xl"}>
       <Stack
@@ -64,6 +64,8 @@ export default function Hero({ loggedIn }) {
               px={6}
               rightIcon={<ArrowForwardIcon h={4} w={4} color={"white"} />}
               colorScheme="red"
+              as={Link}
+              to={loggedIn ? "/events" : "/login"}
             >
               How It Works
             </Button>
