@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
-import { FaTicket, FaLocationDot } from "react-icons/fa6";
+import { FaTicket, FaLocationDot, FaMusic } from "react-icons/fa6";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -27,7 +27,7 @@ export default function SpecificEvent({ loading, setLoading }) {
   const [error, setError] = useState(null);
   const [event, setEvent] = useState(null);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
-  
+
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -77,7 +77,7 @@ export default function SpecificEvent({ loading, setLoading }) {
       });
     } catch (error) {
       console.error("An error occurred:", error.message);
-      
+
       toast({
         title: "Error.",
         description: "An Error Occured.",
@@ -89,19 +89,25 @@ export default function SpecificEvent({ loading, setLoading }) {
     }
   };
 
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  }
+
   return (
     <div className="event-style">
       <Box className="box">
         <Stack align="center">
           <Text fontSize="5xl">{event.title}</Text>
-          <Card
-            color="white"
-            borderRadius="xl"
-            maxWidth="80%"
-            bg="rgba(85, 85, 85, 0.5)"
-          >
+          <Card color="white" borderRadius="xl" bg="rgba(85, 85, 85, 0.5)">
             <CardBody>
-              <Image borderRadius="xl" src={event.profile} />
+              <Image
+                borderRadius="xl"
+                boxSize="600px"
+                objectFit="cover"
+                src={event.profile}
+              />
               <Flex
                 justifyContent="center"
                 alignItems="flex-start"
@@ -114,7 +120,8 @@ export default function SpecificEvent({ loading, setLoading }) {
                   marginRight="5px"
                 />
                 <Text>
-                  {event.venue}, {event.state}, {event.country}
+                  {toTitleCase(event.venue)}, {toTitleCase(event.city)},{" "}
+                  {toTitleCase(event.state)}, {toTitleCase(event.country)}{" "}
                 </Text>
               </Flex>
               <Flex justifyContent="center" alignItems="center" marginTop="5px">
@@ -131,6 +138,16 @@ export default function SpecificEvent({ loading, setLoading }) {
                   })}
                 </Text>
               </Flex>
+              <Flex justifyContent="center" alignItems="center" marginTop="5px">
+                <Icon
+                  as={FaMusic}
+                  color="brand.100"
+                  boxSize="20px"
+                  marginRight="10px"
+                />
+                <Text>{event.genre.map(toTitleCase).join(", ")}</Text>
+              </Flex>
+
               <Divider margin="15px 0" />
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Text textAlign="center" maxWidth="60%">
@@ -138,7 +155,6 @@ export default function SpecificEvent({ loading, setLoading }) {
                 </Text>
               </Box>
               <Divider margin="15px 0" />
-
               <Flex justifyContent="center" alignItems="center">
                 <Icon
                   as={FaTicket}
@@ -168,13 +184,13 @@ export default function SpecificEvent({ loading, setLoading }) {
           </Card>
           <Button
             bg="brand.100"
-            width="100%"
+            width="80%"
             marginTop="20px"
             _hover={{ bg: "brand.200" }}
             fontWeight="bold"
             onClick={handlePurchase}
           >
-            Purhcase
+            Buy now
           </Button>
         </Stack>
       </Box>

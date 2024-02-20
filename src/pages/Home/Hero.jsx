@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Container,
   Stack,
@@ -9,9 +10,10 @@ import {
   Image,
 } from "@chakra-ui/react";
 import FeaturedCard from "./FeaturedCard";
+import { Link } from "react-router-dom";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 
-export default function Hero() {
+export default function Hero({ loggedIn }) {
   return (
     <Container maxW={"7xl"}>
       <Stack

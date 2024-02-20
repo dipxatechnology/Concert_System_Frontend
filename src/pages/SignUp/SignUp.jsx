@@ -33,6 +33,8 @@ export default function SignUp({ setLoggedIn }) {
   const [country, setCountry] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+
   const toast = useToast();
 
   useEffect(() => {
@@ -92,7 +94,7 @@ export default function SignUp({ setLoggedIn }) {
       });
     }
   };
-
+  const handleCheckboxChange = (e) => setIsChecked(e.target.checked);
   const handleClick = () => setShow(!show);
   const handleClickConfirm = () => setShowConfirm(!showConfirm);
 
@@ -228,7 +230,13 @@ export default function SignUp({ setLoggedIn }) {
                 )}
               </InputRightElement>
             </InputGroup>
-            <Checkbox size="lg" colorScheme="red" color="grey" marginTop="20px">
+            <Checkbox
+              size="lg"
+              colorScheme="red"
+              color="grey"
+              marginTop="20px"
+              onChange={handleCheckboxChange}
+            >
               I agree to the
               <Link to="/terms">
                 <Box as="span" color="#D45161" paddingLeft={"5px"}>
@@ -250,6 +258,7 @@ export default function SignUp({ setLoggedIn }) {
               _hover={{ bg: "brand.200" }}
               fontWeight="bold"
               onClick={() => handleSignUp()}
+              isDisabled={!isChecked}
             >
               Create account
             </Button>

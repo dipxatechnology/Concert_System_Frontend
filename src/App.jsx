@@ -13,11 +13,17 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import SpecificEvent from "./pages/Events/SpecificEvent";
 import TicketHistory from "./pages/TicketHistory";
+<<<<<<< HEAD
+import PurchaseDetails from "./pages/Profile/PurchaseDetails";
+import Terms from "./pages/Terms";
+import Policy from "./pages/Policy";
+=======
 import AdminPage from "./pages/AdminUser";
 import AdminInfoPage from "./pages/AdminInfoPage";
 import AdminTicketInfoPage from "./pages/AdminTicketInfoPage";
 import AdminArtistInfoPage from "./pages/AdminArtistInfoPage";
 import AdminConcertInfoPage from "./pages/AdminConcertInfoPage";
+>>>>>>> 614f2f0b2867b34a0d2b21412a49e7938fd9682d
 
 import "./App.css";
 import AdminFeedbackInfoPage from "./pages/AdminFeedbackInfoPage";
@@ -49,7 +55,10 @@ export default function App() {
         }
       >
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />} />
+        <Route
+          path="/login"
+          element={<Login setLoggedIn={setLoggedIn} loggedIn={loggedIn} />}
+        />
         <Route path="/signup" element={<SignUp setLoggedIn={setLoggedIn} />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<About />} />
@@ -62,18 +71,29 @@ export default function App() {
           path="/profile/:id"
           element={<Profile setLoading={setLoading} loading={loading} />}
         />
+        <Route
+          path="/purchase-details/:id"
+          element={
+            <PurchaseDetails setLoading={setLoading} loading={loading} />
+          }
+        />
         <Route path="/settings" element={<Settings />} />
         <Route path="/ticket-history" element={<TicketHistory />} />
         <Route
           path="/events/:id"
           element={<SpecificEvent setLoading={setLoading} loading={loading} />}
         />
+<<<<<<< HEAD
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/policy" element={<Policy />} />
+=======
         <Route path="/adminUser" element={<AdminPage setLoading={setLoading} />}/>
         <Route path="/adminInfoPage/:id" element={<AdminInfoPage setLoading={setLoading} loading={loading} />}/>
         <Route path="/adminTicketInfoPage/:id" element={<AdminTicketInfoPage setLoading={setLoading} loading={loading} />}/>
         <Route path="/AdminArtistInfoPage/:id" element={<AdminArtistInfoPage setLoading={setLoading} loading={loading} />}/>
         <Route path="/AdminConcertInfoPage/:id" element={<AdminConcertInfoPage setLoading={setLoading} loading={loading} />}/>
         <Route path="/AdminFeedbackInfoPage/:id" element={<AdminFeedbackInfoPage setLoading={setLoading} loading={loading} />}/>
+>>>>>>> 614f2f0b2867b34a0d2b21412a49e7938fd9682d
       </Route>
     </Routes>
   );
