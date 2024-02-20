@@ -28,6 +28,7 @@ const AdminConcertPage = ({ setLoading, navigate }) => {
         setLoading(false);
       } catch (error) {
         // Handle error (e.g., setError(error))
+        console.error(error)
         setLoading(false);
       }
     };
@@ -51,6 +52,7 @@ const AdminConcertPage = ({ setLoading, navigate }) => {
 
   const handleRowClick = (id) => {
     navigate(`/AdminConcertInfoPage/${id}`)
+    setLoading(true)
   };
 
   return (

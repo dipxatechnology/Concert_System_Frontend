@@ -51,6 +51,7 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
 
   const handleRowClick = (id) => {
     navigate(`/AdminFeedbackInfoPage/${id}`)
+    setLoading(true)
   };
 
   return (

@@ -27,7 +27,7 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
         setArtistResponse(response.data);
         setLoading(false);
       } catch (error) {
-        // Handle error (e.g., setError(error))
+        console.error(error)
         setLoading(false);
       }
     };
@@ -52,6 +52,7 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
 
   const handleRowClick = (id) => {
     navigate(`/AdminArtistInfoPage/${id}`)
+    setLoading(true)
   };
 
   return (

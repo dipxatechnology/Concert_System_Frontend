@@ -51,6 +51,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
 
   const handleRowClick = (id) => {
     navigate(`/adminTicketInfoPage/${id}`)
+    setLoading(true)
   };
 
   return (

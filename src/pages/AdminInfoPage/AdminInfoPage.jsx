@@ -58,7 +58,7 @@ const AdminInfoPage = ({ setLoading, loading }) => {
             id: backendId,
         }
 
-        await api.delete("/artists", { data: idParam });
+        await api.delete("/users", { data: idParam });
 
         toast({
             title: "Succesful.",

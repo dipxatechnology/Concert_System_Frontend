@@ -62,7 +62,7 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
 
       toast({
         title: "Succesful.",
-        description: "The User has been successfully Deleted.",
+        description: "The Concert has been successfully Deleted.",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -97,7 +97,7 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
 
       toast({
         title: "Succesful.",
-        description: "The User has been successfully updated.",
+        description: "The Concert has been successfully updated.",
         status: "success",
         duration: 3000,
         isClosable: true,
