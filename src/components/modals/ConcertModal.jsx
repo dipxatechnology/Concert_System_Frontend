@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {
   Modal,
   ModalOverlay,
@@ -19,6 +21,7 @@ import {
 } from "@chakra-ui/react";
 import api from "../../api/api";
 import { AnimCursor } from "../AnimCursor";
+import "./datepicker.css";
 
 const ConcertModal = ({ isOpen, onClose }) => {
   const toast = useToast();
@@ -26,6 +29,7 @@ const ConcertModal = ({ isOpen, onClose }) => {
   const [genre, setGenre] = useState([]);
   const [artists, setArtists] = useState([]);
   const [selectedArtist, setSelectedArtist] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   useEffect(() => {
     const fetchArtists = async () => {
@@ -61,9 +65,11 @@ const ConcertModal = ({ isOpen, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+        const formattedDate = selectedDate.toISOString();
         const response = await api.post("/concerts", {
           ...formData,
           genre: genre, 
+          date: formattedDate,
           artist: selectedArtist,
         });
 
@@ -144,13 +150,15 @@ const ConcertModal = ({ isOpen, onClose }) => {
             ))}
           </Select>
         </FormControl>
-            <FormControl mb="4">
-              <FormLabel>Date:</FormLabel>
-              <Input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+        <FormControl mb="4">
+              <FormLabel>Date and Time:</FormLabel>
+              <DatePicker
+                selected={selectedDate}
+                onChange={(date) => setSelectedDate(date)}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                dateFormat="MMMM d, yyyy h:mm aa"
                 required
               />
             </FormControl>
