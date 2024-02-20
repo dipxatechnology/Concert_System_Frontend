@@ -40,7 +40,7 @@ const AdminFeedbackInfoPage = ({ setLoading, loading }) => {
             id: backendId,
         }
 
-        await api.delete("/users", { data: idParam });
+        await api.delete("/feedbacks", { data: idParam });
 
         toast({
             title: "Succesful.",

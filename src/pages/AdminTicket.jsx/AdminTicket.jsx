@@ -33,7 +33,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
     };
 
     fetchTickets();
-  }, []);
+  }, [ticketResponse]);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(ticketResponse.length / rowsPerPage);

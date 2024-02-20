@@ -33,7 +33,7 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
     };
 
     fetchConcerts();
-  }, []);
+  }, [artistResponse]);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(artistResponse.length / rowsPerPage);
@@ -72,7 +72,7 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
               <Tr key={artist._id} onClick={() => handleRowClick(artist._id)}>
                 <Td>{artist.username}</Td>
                 <Td>{artist.bio}</Td>
-                <Td>{artist.social}</Td>
+                <Td>{artist.social.join(", ")}</Td>
               </Tr>
             ))}
           </Tbody>

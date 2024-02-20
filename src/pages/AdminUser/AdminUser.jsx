@@ -24,12 +24,22 @@ import AdminArtistPage from "../AdminArtist";
 import AdminConcertPage from "../AdminConcert";
 import AdminFeedbackPage from "../AdminFeedback";
 import { useNavigate } from "react-router-dom";
+import UserModal from "../../components/modals/UserModal.jsx";
+import ArtistModal from "../../components/modals/ArtistModal.jsx";
+import ConcertModal from "../../components/modals/ConcertModal.jsx";
+import FeedbackModal from "../../components/modals/FeedBackModal.jsx";
 
 const AdminPage = ({ setLoading }) => {
   const rowsPerPage = 10;
   const navigate = useNavigate();
   const [userResponse, setUserResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState("User");
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [isTicketModalOpen, setIsTicketModalOpen] = useState(false);
+  const [isArtistModalOpen, setIsArtistModalOpen] = useState(false);
+  const [isConcertModalOpen, setIsConcertModalOpen] = useState(false);
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -44,7 +54,7 @@ const AdminPage = ({ setLoading }) => {
     };
 
     fetchUsers();
-  }, []);
+  }, [userResponse]);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(userResponse.length / rowsPerPage);
@@ -61,20 +71,118 @@ const AdminPage = ({ setLoading }) => {
   };
 
   const handleRowClick = (id) => {
-    navigate(`/adminInfoPage/${id}`)
-    setLoading(true)
+    navigate(`/adminInfoPage/${id}`);
+    setLoading(true);
+  };
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+  };
+
+  const handleOpenUserModal = () => {
+    setIsUserModalOpen(true);
+  };
+
+  const handleCloseUserModal = () => {
+    setIsUserModalOpen(false);
+  };
+
+  const handleOpenTicketModal = () => {
+    setIsTicketModalOpen(true);
+  };
+
+  const handleCloseTicketModal = () => {
+    setIsTicketModalOpen(false);
+  };
+
+  const handleOpenArtistModal = () => {
+    setIsArtistModalOpen(true);
+  };
+
+  const handleCloseArtistModal = () => {
+    setIsArtistModalOpen(false);
+  };
+
+  const handleOpenConcertModal = () => {
+    setIsConcertModalOpen(true);
+  };
+
+  const handleCloseConcertModal = () => {
+    setIsConcertModalOpen(false);
+  };
+
+  const handleOpenFeedbackModal = () => {
+    setIsFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedbackModal = () => {
+    setIsFeedbackModalOpen(false);
   };
 
   return (
     <ChakraProvider>
       <Tabs variant="soft-rounded" colorScheme="green">
-        <TabList>
-          <Tab>User</Tab>
-          <Tab>Ticket</Tab>
-          <Tab>Artist</Tab>
-          <Tab>Concert</Tab>
-          <Tab>Feedback</Tab>
-        </TabList>
+        <Flex>
+          <TabList>
+            <Tab
+              onClick={() => handleTabChange("User")}
+            >
+              User
+            </Tab>
+            <Tab
+              onClick={() => handleTabChange("Ticket")}
+            >
+              Ticket
+            </Tab>
+            <Tab
+              onClick={() => handleTabChange("Artist")}
+            >
+              Artist
+            </Tab>
+            <Tab
+              onClick={() => handleTabChange("Concert")}
+            >
+              Concert
+            </Tab>
+            <Tab
+              onClick={() => handleTabChange("Feedback")}
+            >
+              Feedback
+            </Tab>
+          </TabList>
+          <Spacer />
+          <Button
+            isDisabled={activeTab === "Ticket"}
+            colorScheme="red"
+            onClick={() => {
+              switch (activeTab) {
+                case "User":
+                  handleOpenUserModal();
+                  break;
+                case "Ticket":
+                  handleOpenTicketModal();
+                  break;
+                case "Artist":
+                  handleOpenArtistModal();
+                  break;
+                case "Concert":
+                  handleOpenConcertModal();
+                  break;
+                case "Feedback":
+                  handleOpenFeedbackModal();
+                  break;
+                default:
+                  break;
+              }
+            }}
+          >
+            {activeTab === "User" && "Create New User"}
+            {activeTab === "Ticket" && "Create New Ticket"}
+            {activeTab === "Artist" && "Create New Artist"}
+            {activeTab === "Concert" && "Create New Concert"}
+            {activeTab === "Feedback" && "Create New Feedback"}
+          </Button>
+        </Flex>
         <TabPanels>
           <TabPanel>
             <Box p="4">
@@ -85,6 +193,7 @@ const AdminPage = ({ setLoading }) => {
                     <Th color="white">ID</Th>
                     <Th color="white">Name</Th>
                     <Th color="white">Email</Th>
+                    <Th color="white">Roles</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
@@ -93,6 +202,7 @@ const AdminPage = ({ setLoading }) => {
                       <Td>{user._id}</Td>
                       <Td>{user.username}</Td>
                       <Td>{user.email}</Td>
+                      <Td>{user.roles}</Td>
                     </Tr>
                   ))}
                 </Tbody>
@@ -115,12 +225,36 @@ const AdminPage = ({ setLoading }) => {
               </Flex>
             </Box>
           </TabPanel>
-          <TabPanel><AdminTicketPage setLoading={setLoading} navigate={navigate}/></TabPanel>
-          <TabPanel><AdminArtistPage setLoading={setLoading} navigate={navigate}/></TabPanel>
-          <TabPanel><AdminConcertPage setLoading={setLoading} navigate={navigate}/></TabPanel>
-          <TabPanel><AdminFeedbackPage setLoading={setLoading} navigate={navigate}/></TabPanel>
+          <TabPanel>
+            <AdminTicketPage setLoading={setLoading} navigate={navigate} />
+          </TabPanel>
+          <TabPanel>
+            <AdminArtistPage setLoading={setLoading} navigate={navigate} />
+          </TabPanel>
+          <TabPanel>
+            <AdminConcertPage setLoading={setLoading} navigate={navigate} />
+          </TabPanel>
+          <TabPanel>
+            <AdminFeedbackPage setLoading={setLoading} navigate={navigate} />
+          </TabPanel>
         </TabPanels>
       </Tabs>
+      <UserModal
+        isOpen={isUserModalOpen}
+        onClose={handleCloseUserModal}
+      />
+      <ArtistModal 
+      isOpen={isArtistModalOpen}
+      onClose={handleCloseArtistModal}
+      />
+      <ConcertModal 
+      isOpen={isConcertModalOpen}
+      onClose={handleCloseConcertModal}
+      />
+      <FeedbackModal 
+      isOpen={isFeedbackModalOpen}
+      onClose={handleCloseFeedbackModal}
+      />
     </ChakraProvider>
   );
 };

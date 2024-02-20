@@ -34,7 +34,7 @@ const AdminConcertPage = ({ setLoading, navigate }) => {
     };
 
     fetchConcerts();
-  }, []);
+  }, [concertResponse]);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(concertResponse.length / rowsPerPage);

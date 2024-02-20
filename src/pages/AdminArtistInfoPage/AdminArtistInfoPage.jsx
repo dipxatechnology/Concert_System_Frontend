@@ -69,14 +69,14 @@ const AdminArtistInfoPage = ({ setLoading, loading }) => {
   const handleSaveChanges = async () => {
     try {
       const updatedData = {
-        id: id,
+        id,
         username: artistName,
-        roles: roles,
-        profile: profile,
-        genre: genre,
-        bio: bio,
-        social: social,
-        concerts: concert
+        roles,
+        profile,
+        genre,
+        bio,
+        social,
+        concerts: concert === "" ? [] : concert.split(", ").map(id => id.trim())
       };
 
       await api.patch(`/artists`, updatedData);

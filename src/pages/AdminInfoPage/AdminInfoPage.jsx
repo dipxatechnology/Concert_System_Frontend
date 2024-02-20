@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Text, Input, Button, useToast, Flex, Spacer } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  useToast,
+  Flex,
+  Spacer,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import api from "../../api/api";
 
@@ -17,6 +25,7 @@ const AdminInfoPage = ({ setLoading, loading }) => {
   const [country, setCountry] = useState("");
   const [date, setDate] = useState("");
   const [tickets, setTickets] = useState([]);
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +43,6 @@ const AdminInfoPage = ({ setLoading, loading }) => {
     fetchData();
   }, []);
 
-
   useEffect(() => {
     if (backendData && backendData.username !== undefined) {
       setUserName(backendData.username);
@@ -45,6 +53,7 @@ const AdminInfoPage = ({ setLoading, loading }) => {
       setAddress(backendData.address || "");
       setPostcode(backendData.postcode || "");
       setCountry(backendData.country || "");
+      setPassword(backendData.password || "");
       setTickets(backendData.ticket.map((ticket) => ticket._id).join(", "));
       setDate(backendData.ticket.map((ticket) => ticket.date).join(", "));
     }
@@ -54,24 +63,24 @@ const AdminInfoPage = ({ setLoading, loading }) => {
 
   const handleUserDelete = async (backendId) => {
     try {
-        const idParam = {
-            id: backendId,
-        }
+      const idParam = {
+        id: backendId,
+      };
 
-        await api.delete("/users", { data: idParam });
+      await api.delete("/users", { data: idParam });
 
-        toast({
-            title: "Succesful.",
-            description: "The User has been successfully Deleted.",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-            position: "bottom-right",
-          });
-    }catch(error) {
-        console.error(error)
+      toast({
+        title: "Succesful.",
+        description: "The User has been successfully Deleted.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    } catch (error) {
+      console.error(error);
     }
-  }
+  };
 
   const handleSaveChanges = async () => {
     try {
@@ -84,7 +93,9 @@ const AdminInfoPage = ({ setLoading, loading }) => {
         email: Email,
         address: address,
         postcode: postcode,
-        ticket: tickets
+        country: country,
+        password: password,
+        ticket: tickets,
       };
 
       await api.patch(`/users`, updatedData);
@@ -116,13 +127,15 @@ const AdminInfoPage = ({ setLoading, loading }) => {
         <Box mb="2">
           <Text color="white">ID</Text>
           <Input color="white" defaultValue={backendData._id} mb="2" readOnly />
-          <Text color="white">Artist Name</Text>
+          <Text color="white">Name</Text>
           <Input
             color="white"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             mb="2"
           />
+          <Text color="white">Password</Text>
+          <Input color="white" defaultValue={password} readOnly mb="2" />
           <Text color="white">Roles</Text>
           <Input
             color="white"

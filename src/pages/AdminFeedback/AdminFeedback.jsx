@@ -33,7 +33,7 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
     };
 
     fetchFeedbacks();
-  }, []);
+  }, [feedbackResponse]);
 
   // Calculate total number of pages
   const totalPages = Math.ceil(feedbackResponse.length / rowsPerPage);

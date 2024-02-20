@@ -159,7 +159,7 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
             onChange={(e) => setGenre(e.target.value.split(", "))}
             mb="2"
           />
-          <Text color="white">Artist</Text>
+          <Text color="white">Artist ID</Text>
           <Input
             color="white"
             value={artist}
