@@ -35,8 +35,8 @@ import "./profile.css";
 
 export default function Profile({ setLoading, loading }) {
   const { id } = useParams();
-  const [userProfile, setUserProfile] = useState(null);
-  const [error, setError] = useState(null);
+  const [userProfile, setUserProfile] = useState("");
+  const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
@@ -57,14 +57,17 @@ export default function Profile({ setLoading, loading }) {
   if (!userProfile && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const allEvents = userProfile.ticket;
-  const filteredEvents = searchQuery
-    ? allEvents.filter(
-        (event) =>
-          event.concert.title &&
-          event.concert.title.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    : allEvents;
+  const allEvents = userProfile && userProfile.ticket ? userProfile.ticket : [];
+  const filteredEvents =
+    allEvents && searchQuery
+      ? allEvents.filter(
+          (event) =>
+            event.concert.title &&
+            event.concert.title
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
+        )
+      : allEvents;
 
   function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
@@ -102,7 +105,7 @@ export default function Profile({ setLoading, loading }) {
           fontSize="18px"
         >
           <CalendarIcon marginRight="10px" boxSize="20px" />
-          {`Events: ${filteredEvents.length}`}
+          {filteredEvents && `Events: ${filteredEvents.length}`}
         </Button>
         <Spacer />
         <InputGroup width="35vh">
