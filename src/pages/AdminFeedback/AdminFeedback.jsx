@@ -16,9 +16,10 @@ import {
 import api from "../../api/api";
 
 const AdminFeedbackPage = ({ setLoading, navigate }) => {
-  const rowsPerPage = 10; 
+  const rowsPerPage = 10;
   const [feedbackResponse, setFeedbackResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
@@ -33,7 +34,11 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
     };
 
     fetchFeedbacks();
-  }, [feedbackResponse]);
+  }, [refreshData]);
+
+  const handleRefresh = () => {
+    setRefreshData((prev) => !prev);
+  };
 
   // Calculate total number of pages
   const totalPages = Math.ceil(feedbackResponse.length / rowsPerPage);
@@ -50,13 +55,16 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
   };
 
   const handleRowClick = (id) => {
-    navigate(`/AdminFeedbackInfoPage/${id}`)
-    setLoading(true)
+    navigate(`/AdminFeedbackInfoPage/${id}`);
+    setLoading(true);
   };
 
   return (
     <ChakraProvider>
       <Box p="4">
+        <Button onClick={handleRefresh} mb="4">
+          Refresh Data
+        </Button>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Feedback</TableCaption>
           <Thead>

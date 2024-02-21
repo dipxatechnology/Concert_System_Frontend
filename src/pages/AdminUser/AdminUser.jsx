@@ -40,6 +40,7 @@ const AdminPage = ({ setLoading }) => {
   const [isArtistModalOpen, setIsArtistModalOpen] = useState(false);
   const [isConcertModalOpen, setIsConcertModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -54,7 +55,11 @@ const AdminPage = ({ setLoading }) => {
     };
 
     fetchUsers();
-  }, [userResponse]);
+  }, [refreshData]);
+
+  const handleRefresh = () => {
+    setRefreshData((prev) => !prev);
+  };
 
   // Calculate total number of pages
   const totalPages = Math.ceil(userResponse.length / rowsPerPage);
@@ -124,31 +129,11 @@ const AdminPage = ({ setLoading }) => {
       <Tabs variant="soft-rounded" colorScheme="green">
         <Flex>
           <TabList>
-            <Tab
-              onClick={() => handleTabChange("User")}
-            >
-              User
-            </Tab>
-            <Tab
-              onClick={() => handleTabChange("Ticket")}
-            >
-              Ticket
-            </Tab>
-            <Tab
-              onClick={() => handleTabChange("Artist")}
-            >
-              Artist
-            </Tab>
-            <Tab
-              onClick={() => handleTabChange("Concert")}
-            >
-              Concert
-            </Tab>
-            <Tab
-              onClick={() => handleTabChange("Feedback")}
-            >
-              Feedback
-            </Tab>
+            <Tab onClick={() => handleTabChange("User")}>User</Tab>
+            <Tab onClick={() => handleTabChange("Ticket")}>Ticket</Tab>
+            <Tab onClick={() => handleTabChange("Artist")}>Artist</Tab>
+            <Tab onClick={() => handleTabChange("Concert")}>Concert</Tab>
+            <Tab onClick={() => handleTabChange("Feedback")}>Feedback</Tab>
           </TabList>
           <Spacer />
           <Button
@@ -186,6 +171,9 @@ const AdminPage = ({ setLoading }) => {
         <TabPanels>
           <TabPanel>
             <Box p="4">
+              <Button onClick={handleRefresh} mb="4">
+                Refresh Data
+              </Button>
               <Table variant="simple" colorScheme="white" color="white">
                 <TableCaption>Admin User</TableCaption>
                 <Thead>
@@ -239,21 +227,18 @@ const AdminPage = ({ setLoading }) => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <UserModal
-        isOpen={isUserModalOpen}
-        onClose={handleCloseUserModal}
+      <UserModal isOpen={isUserModalOpen} onClose={handleCloseUserModal} />
+      <ArtistModal
+        isOpen={isArtistModalOpen}
+        onClose={handleCloseArtistModal}
       />
-      <ArtistModal 
-      isOpen={isArtistModalOpen}
-      onClose={handleCloseArtistModal}
+      <ConcertModal
+        isOpen={isConcertModalOpen}
+        onClose={handleCloseConcertModal}
       />
-      <ConcertModal 
-      isOpen={isConcertModalOpen}
-      onClose={handleCloseConcertModal}
-      />
-      <FeedbackModal 
-      isOpen={isFeedbackModalOpen}
-      onClose={handleCloseFeedbackModal}
+      <FeedbackModal
+        isOpen={isFeedbackModalOpen}
+        onClose={handleCloseFeedbackModal}
       />
     </ChakraProvider>
   );

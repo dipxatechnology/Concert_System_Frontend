@@ -16,9 +16,10 @@ import {
 import api from "../../api/api";
 
 const AdminArtistPage = ({ setLoading, navigate }) => {
-  const rowsPerPage = 10; 
+  const rowsPerPage = 10;
   const [artistResponse, setArtistResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -27,13 +28,17 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
         setArtistResponse(response.data);
         setLoading(false);
       } catch (error) {
-        console.error(error)
+        console.error(error);
         setLoading(false);
       }
     };
 
     fetchConcerts();
-  }, [artistResponse]);
+  }, [refreshData]);
+
+  const handleRefresh = () => {
+    setRefreshData((prev) => !prev);
+  };
 
   // Calculate total number of pages
   const totalPages = Math.ceil(artistResponse.length / rowsPerPage);
@@ -51,13 +56,16 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
   };
 
   const handleRowClick = (id) => {
-    navigate(`/AdminArtistInfoPage/${id}`)
-    setLoading(true)
+    navigate(`/AdminArtistInfoPage/${id}`);
+    setLoading(true);
   };
 
   return (
     <ChakraProvider>
       <Box p="4">
+        <Button onClick={handleRefresh} mb="4">
+          Refresh Data
+        </Button>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Artist</TableCaption>
           <Thead>
