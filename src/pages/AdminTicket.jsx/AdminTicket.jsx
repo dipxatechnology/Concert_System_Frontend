@@ -26,6 +26,7 @@ const AdminTicketPage = ({
   const [ticketResponse, setTicketResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
+  const startingPage = currentPage;
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -43,22 +44,24 @@ const AdminTicketPage = ({
     fetchTickets();
   }, [refreshData]);
 
+  const reversedTicketResponse = [...ticketResponse].reverse();
+
   const handleRefresh = () => {
     setRefreshData((prev) => !prev);
   };
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(ticketResponse.length / rowsPerPage);
+  const totalPages = Math.ceil(reversedTicketResponse.length / rowsPerPage);
 
   // Get the current pages data
-  const paginatedRows = ticketResponse
-    .filter(
-      (ticket) =>
-        ticket.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (ticket.concert &&
-          ticket.concert.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    )
-    .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
+  const paginatedRows = reversedTicketResponse
+  .filter(
+    (ticket) =>
+      ticket.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (ticket.concert &&
+        ticket.concert.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  )
+  .slice((startingPage - 1) * rowsPerPage, startingPage * rowsPerPage);
 
   // Handle page navigation
   const goToPage = (page) => {

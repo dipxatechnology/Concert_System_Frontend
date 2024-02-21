@@ -26,6 +26,7 @@ const AdminConcertPage = ({
   const [concertResponse, setConcertResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
+  const startingPage = currentPage;
 
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -43,14 +44,16 @@ const AdminConcertPage = ({
     fetchConcerts();
   }, [refreshData]);
 
+  const reversedConcertResponse = [...concertResponse].reverse();
+
   const handleRefresh = () => {
     setRefreshData((prev) => !prev);
   };
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(concertResponse.length / rowsPerPage);
+  const totalPages = Math.ceil(reversedConcertResponse.length / rowsPerPage);
 
-  const filteredRows = concertResponse.filter(
+  const filteredRows = reversedConcertResponse.filter(
     (concert) =>
       concert.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       concert.date.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -59,8 +62,8 @@ const AdminConcertPage = ({
 
   // Get the current pages data
   const paginatedRows = filteredRows.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    (startingPage - 1) * rowsPerPage,
+    startingPage * rowsPerPage
   );
 
   // Handle page navigation

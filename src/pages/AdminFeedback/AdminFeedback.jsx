@@ -26,6 +26,7 @@ const AdminFeedbackPage = ({
   const [feedbackResponse, setFeedbackResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
+  const startingPage = currentPage;
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
@@ -42,14 +43,16 @@ const AdminFeedbackPage = ({
     fetchFeedbacks();
   }, [refreshData]);
 
+  const reversedFeedBackResponse = [...feedbackResponse].reverse();
+
   const handleRefresh = () => {
     setRefreshData((prev) => !prev);
   };
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(feedbackResponse.length / rowsPerPage);
+  const totalPages = Math.ceil(reversedFeedBackResponse.length / rowsPerPage);
 
-  const filteredRows = feedbackResponse.filter(
+  const filteredRows = reversedFeedBackResponse.filter(
     (feedback) =>
       feedback.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       feedback.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -58,8 +61,8 @@ const AdminFeedbackPage = ({
 
   // Get the current pages data
   const paginatedRows = filteredRows.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    (startingPage - 1) * rowsPerPage,
+    startingPage * rowsPerPage
   );
 
   // Handle page navigation

@@ -26,6 +26,7 @@ const AdminArtistPage = ({
   const [artistResponse, setArtistResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [refreshData, setRefreshData] = useState(false);
+  const startingPage = currentPage;
 
   useEffect(() => {
     const fetchConcerts = async () => {
@@ -46,10 +47,12 @@ const AdminArtistPage = ({
     setRefreshData((prev) => !prev);
   };
 
-  // Calculate total number of pages
-  const totalPages = Math.ceil(artistResponse.length / rowsPerPage);
+  const reversedArtistResponse = [...artistResponse].reverse();
 
-  const filteredRows = artistResponse.filter(
+  // Calculate total number of pages
+  const totalPages = Math.ceil(reversedArtistResponse.length / rowsPerPage);
+
+  const filteredRows = reversedArtistResponse.filter(
     (artist) =>
       artist.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
       artist.bio.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -58,8 +61,8 @@ const AdminArtistPage = ({
 
   // Get the current pages data
   const paginatedRows = filteredRows.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    (startingPage - 1) * rowsPerPage,
+    startingPage * rowsPerPage
   );
 
   // Handle page navigation

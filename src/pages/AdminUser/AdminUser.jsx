@@ -62,23 +62,35 @@ const AdminPage = ({ setLoading }) => {
     fetchUsers();
   }, [refreshData]);
 
+  const reversedUserResponse = [...userResponse].reverse();
+
   const handleRefresh = () => {
     setRefreshData((prev) => !prev);
   };
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(userResponse.length / rowsPerPage);
+  const totalPages = Math.ceil(reversedUserResponse.length / rowsPerPage);
 
-  const filteredRows = userResponse.filter(
-    (user) =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
-  );
+  const filteredRows = reversedUserResponse.filter((user) => {
+    const usernameMatch = user.username
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const emailMatch = user.email
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const rolesMatch = user.roles.some((role) =>
+      role.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return usernameMatch || emailMatch || rolesMatch;
+  });
+
+  const startingPage = currentPage;
 
   // Get the current pages data
   const paginatedRows = filteredRows.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
+    (startingPage - 1) * rowsPerPage,
+    startingPage * rowsPerPage
   );
 
   // Handle page navigation
@@ -93,6 +105,7 @@ const AdminPage = ({ setLoading }) => {
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
+    setCurrentPage(1);
   };
 
   const handleOpenUserModal = () => {
@@ -187,7 +200,7 @@ const AdminPage = ({ setLoading }) => {
                   Refresh Data
                 </Button>
                 <Input
-                color="white"
+                  color="white"
                   ml="20px"
                   type="text"
                   placeholder="Search..."
@@ -235,16 +248,36 @@ const AdminPage = ({ setLoading }) => {
             </Box>
           </TabPanel>
           <TabPanel>
-            <AdminTicketPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+            <AdminTicketPage
+              setLoading={setLoading}
+              navigate={navigate}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
           </TabPanel>
           <TabPanel>
-            <AdminArtistPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+            <AdminArtistPage
+              setLoading={setLoading}
+              navigate={navigate}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
           </TabPanel>
           <TabPanel>
-            <AdminConcertPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+            <AdminConcertPage
+              setLoading={setLoading}
+              navigate={navigate}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
           </TabPanel>
           <TabPanel>
-            <AdminFeedbackPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+            <AdminFeedbackPage
+              setLoading={setLoading}
+              navigate={navigate}
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+            />
           </TabPanel>
         </TabPanels>
       </Tabs>
