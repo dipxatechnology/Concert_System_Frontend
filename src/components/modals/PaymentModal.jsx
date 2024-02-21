@@ -40,6 +40,54 @@ function PaymentModal({ event, selectedQuantity }) {
       return; // Stop the function if not all fields are filled
     }
 
+    if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+      toast({
+        title: "Error.",
+        description: "Please enter a valid 16 digit card number.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expiryDate)) {
+      toast({
+        title: "Error.",
+        description: "Please enter a valid expiry date in the format MM/YY.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    if (cvv.length !== 3 || isNaN(cvv)) {
+      toast({
+        title: "Error.",
+        description: "Please enter a valid 3 digit CVV.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+
+    if (/\d/.test(cardHolderName)) {
+      toast({
+        title: "Error.",
+        description: "Card holder name should not contain numbers.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       const currentDate = new Date().toISOString();
