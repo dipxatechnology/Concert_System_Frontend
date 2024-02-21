@@ -16,6 +16,7 @@ import {
 import { useState } from "react";
 import api from "../../api/api";
 import { useNavigate } from "react-router-dom";
+import { AnimCursor } from "../AnimCursor";
 
 function PaymentModal({ event, selectedQuantity }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -150,7 +151,8 @@ function PaymentModal({ event, selectedQuantity }) {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent bg="#222222" color="white">
+        <AnimCursor />
           <ModalHeader>Payment Method</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -203,7 +205,7 @@ function PaymentModal({ event, selectedQuantity }) {
             >
               Pay
             </Button>
-            <Button variant="ghost" onClick={onClose}>
+            <Button onClick={onClose} colorScheme="red">
               Cancel
             </Button>
           </ModalFooter>
