@@ -12,10 +12,16 @@ import {
   Button,
   Flex,
   Spacer,
+  Input,
 } from "@chakra-ui/react";
 import api from "../../api/api";
 
-const AdminFeedbackPage = ({ setLoading, navigate }) => {
+const AdminFeedbackPage = ({
+  setLoading,
+  navigate,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const rowsPerPage = 10;
   const [feedbackResponse, setFeedbackResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,8 +49,15 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
   // Calculate total number of pages
   const totalPages = Math.ceil(feedbackResponse.length / rowsPerPage);
 
+  const filteredRows = feedbackResponse.filter(
+    (feedback) =>
+      feedback.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      feedback.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      feedback.message.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Get the current pages data
-  const paginatedRows = feedbackResponse.slice(
+  const paginatedRows = filteredRows.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -62,9 +75,19 @@ const AdminFeedbackPage = ({ setLoading, navigate }) => {
   return (
     <ChakraProvider>
       <Box p="4">
-        <Button onClick={handleRefresh} mb="4">
-          Refresh Data
-        </Button>
+        <Flex>
+          <Button onClick={handleRefresh} mb="4" colorScheme="red">
+            Refresh Data
+          </Button>
+          <Input
+            color="white"
+            ml="20px"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Flex>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Feedback</TableCaption>
           <Thead>

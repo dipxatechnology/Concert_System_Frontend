@@ -12,10 +12,16 @@ import {
   Button,
   Flex,
   Spacer,
+  Input,
 } from "@chakra-ui/react";
 import api from "../../api/api";
 
-const AdminTicketPage = ({ setLoading, navigate }) => {
+const AdminTicketPage = ({
+  setLoading,
+  navigate,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const rowsPerPage = 10;
   const [ticketResponse, setTicketResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,6 +32,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
       try {
         const response = await api.get("/tickets");
         setTicketResponse(response.data);
+
         setLoading(false);
       } catch (error) {
         // Handle error (e.g., setError(error))
@@ -44,10 +51,14 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
   const totalPages = Math.ceil(ticketResponse.length / rowsPerPage);
 
   // Get the current pages data
-  const paginatedRows = ticketResponse.slice(
-    (currentPage - 1) * rowsPerPage,
-    currentPage * rowsPerPage
-  );
+  const paginatedRows = ticketResponse
+    .filter(
+      (ticket) =>
+        ticket.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (ticket.concert &&
+          ticket.concert.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    )
+    .slice((currentPage - 1) * rowsPerPage, currentPage * rowsPerPage);
 
   // Handle page navigation
   const goToPage = (page) => {
@@ -62,9 +73,19 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
   return (
     <ChakraProvider>
       <Box p="4">
-        <Button onClick={handleRefresh} mb="4">
-          Refresh Data
-        </Button>
+        <Flex>
+          <Button onClick={handleRefresh} mb="4" colorScheme="red">
+            Refresh Data
+          </Button>
+          <Input
+            color="white"
+            ml="20px"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Flex>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Ticket</TableCaption>
           <Thead>

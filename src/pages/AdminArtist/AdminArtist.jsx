@@ -12,10 +12,16 @@ import {
   Button,
   Flex,
   Spacer,
+  Input,
 } from "@chakra-ui/react";
 import api from "../../api/api";
 
-const AdminArtistPage = ({ setLoading, navigate }) => {
+const AdminArtistPage = ({
+  setLoading,
+  navigate,
+  searchTerm,
+  setSearchTerm,
+}) => {
   const rowsPerPage = 10;
   const [artistResponse, setArtistResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,8 +49,15 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
   // Calculate total number of pages
   const totalPages = Math.ceil(artistResponse.length / rowsPerPage);
 
+  const filteredRows = artistResponse.filter(
+    (artist) =>
+      artist.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      artist.bio.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      artist.social.join(", ").toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   // Get the current pages data
-  const paginatedRows = artistResponse.slice(
+  const paginatedRows = filteredRows.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -63,9 +76,19 @@ const AdminArtistPage = ({ setLoading, navigate }) => {
   return (
     <ChakraProvider>
       <Box p="4">
-        <Button onClick={handleRefresh} mb="4">
-          Refresh Data
-        </Button>
+        <Flex>
+          <Button onClick={handleRefresh} mb="4" colorScheme="red">
+            Refresh Data
+          </Button>
+          <Input
+            color="white"
+            ml="20px"
+            type="text"
+            placeholder="Search..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </Flex>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Artist</TableCaption>
           <Thead>

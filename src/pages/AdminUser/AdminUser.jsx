@@ -17,6 +17,7 @@ import {
   TabPanels,
   Tab,
   TabPanel,
+  Input,
 } from "@chakra-ui/react";
 import api from "../../api/api";
 import AdminTicketPage from "../AdminTicket.jsx";
@@ -41,12 +42,16 @@ const AdminPage = ({ setLoading }) => {
   const [isConcertModalOpen, setIsConcertModalOpen] = useState(false);
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await api.get("/users");
         setUserResponse(response.data);
+        params: {
+          searchTerm;
+        }
         setLoading(false);
       } catch (error) {
         // Handle error (e.g., setError(error))
@@ -64,8 +69,14 @@ const AdminPage = ({ setLoading }) => {
   // Calculate total number of pages
   const totalPages = Math.ceil(userResponse.length / rowsPerPage);
 
+  const filteredRows = userResponse.filter(
+    (user) =>
+      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase()) 
+  );
+
   // Get the current pages data
-  const paginatedRows = userResponse.slice(
+  const paginatedRows = filteredRows.slice(
     (currentPage - 1) * rowsPerPage,
     currentPage * rowsPerPage
   );
@@ -171,9 +182,19 @@ const AdminPage = ({ setLoading }) => {
         <TabPanels>
           <TabPanel>
             <Box p="4">
-              <Button onClick={handleRefresh} mb="4">
-                Refresh Data
-              </Button>
+              <Flex>
+                <Button onClick={handleRefresh} mb="4" colorScheme="red">
+                  Refresh Data
+                </Button>
+                <Input
+                color="white"
+                  ml="20px"
+                  type="text"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </Flex>
               <Table variant="simple" colorScheme="white" color="white">
                 <TableCaption>Admin User</TableCaption>
                 <Thead>
@@ -214,16 +235,16 @@ const AdminPage = ({ setLoading }) => {
             </Box>
           </TabPanel>
           <TabPanel>
-            <AdminTicketPage setLoading={setLoading} navigate={navigate} />
+            <AdminTicketPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           </TabPanel>
           <TabPanel>
-            <AdminArtistPage setLoading={setLoading} navigate={navigate} />
+            <AdminArtistPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           </TabPanel>
           <TabPanel>
-            <AdminConcertPage setLoading={setLoading} navigate={navigate} />
+            <AdminConcertPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           </TabPanel>
           <TabPanel>
-            <AdminFeedbackPage setLoading={setLoading} navigate={navigate} />
+            <AdminFeedbackPage setLoading={setLoading} navigate={navigate} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           </TabPanel>
         </TabPanels>
       </Tabs>
