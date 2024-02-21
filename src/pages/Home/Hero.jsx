@@ -24,7 +24,7 @@ export default function Hero({ loggedIn }) {
         <Stack flex={1} spacing={{ base: 2, md: 5 }}>
           <Heading
             lineHeight={1.1}
-            mb="20px"
+            mb="30px"
             fontWeight={600}
             fontSize={{ base: "3xl", sm: "4xl", lg: "6xl" }}
           >
