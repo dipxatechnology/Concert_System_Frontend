@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import api from "../../api/api";
 
@@ -31,6 +31,8 @@ import { RiSearch2Line } from "react-icons/ri";
 
 import { FaTicket, FaLocationDot } from "react-icons/fa6";
 
+import FilterModal from "../../components/modals/FilterModal";
+
 import "./profile.css";
 
 export default function Profile({ setLoading, loading }) {
@@ -38,6 +40,7 @@ export default function Profile({ setLoading, loading }) {
   const [userProfile, setUserProfile] = useState("");
   const [error, setError] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+  const [filter, setFilter] = useState({ genre: "", order: "" });
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -52,22 +55,44 @@ export default function Profile({ setLoading, loading }) {
     };
 
     fetchUser();
-  }, []);
-
-  if (!userProfile && loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  }, [id, setLoading]);
 
   const allEvents = userProfile && userProfile.ticket ? userProfile.ticket : [];
-  const filteredEvents =
-    allEvents && searchQuery
-      ? allEvents.filter(
-          (event) =>
-            event.concert.title &&
-            event.concert.title
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase())
-        )
-      : allEvents;
+
+  const filteredEvents = useMemo(() => {
+    let events = allEvents;
+
+    // Filter by search query
+    if (searchQuery) {
+      events = events.filter(
+        (event) =>
+          event.concert.title &&
+          event.concert.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    // Filter by genre
+    if (filter.genre) {
+      events = events.filter((event) =>
+        event.concert.genre.includes(filter.genre)
+      );
+    }
+
+    // Sort by order
+    if (filter.order) {
+      const isAscending = filter.order === "asc";
+      events.sort((a, b) => {
+        const titleA = a.concert.title.toLowerCase();
+        const titleB = b.concert.title.toLowerCase();
+
+        if (titleA < titleB) return isAscending ? -1 : 1;
+        if (titleA > titleB) return isAscending ? 1 : -1;
+        return 0;
+      });
+    }
+
+    return events;
+  }, [allEvents, searchQuery, filter]);
 
   function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
@@ -76,6 +101,9 @@ export default function Profile({ setLoading, loading }) {
   }
 
   console.log(filteredEvents);
+
+  if (!userProfile && loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div className="container">
@@ -123,6 +151,7 @@ export default function Profile({ setLoading, loading }) {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </InputGroup>
+        <FilterModal allEvents={allEvents} setFilter={setFilter} />
       </Flex>
       <Divider margin="15px 0 35px" />
       {filteredEvents.length === 0 && searchQuery && (
