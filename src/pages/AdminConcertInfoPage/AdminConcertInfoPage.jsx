@@ -18,6 +18,7 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
   const [price, setPrice] = useState("");
   const [description, setDescription] = useState("");
   const [venue, setVenue] = useState("");
+  const [seats, setSeats] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +48,7 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
       setPrice(backendData.price);
       setDescription(backendData.description);
       setVenue(backendData.venue);
+      setSeats(backendData.seats);
     }
   }, [backendData]);
 
@@ -88,7 +90,9 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
         price: price,
         description: description,
         venue: venue,
+        seats,
       };
+      console.log(updatedData)
 
       await api.patch(`/concerts`, updatedData);
 
@@ -189,6 +193,13 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
           />
           <Text color="white">Date</Text>
           <Input color="white" defaultValue={date} mb="2" readOnly />
+          <Text color="white">Number of Seats Available</Text>
+          <Input
+            color="white"
+            value={seats}
+            onChange={(e) => setSeats(parseInt(e.target.value))}
+            mb="2"
+          />
         </Box>
         <Flex>
           <Button

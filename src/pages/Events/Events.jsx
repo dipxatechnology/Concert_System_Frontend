@@ -12,6 +12,7 @@ import {
   Icon,
   Flex,
   Heading,
+  Spacer,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { FaTicket, FaLocationDot } from "react-icons/fa6";
@@ -125,7 +126,9 @@ export default function Events({ setLoading, loading }) {
                       marginRight="10px"
                     />
                     <Text>RM{concert.price} </Text>
+                    <Spacer />
                   </Flex>
+                    <Text>{`AVAILABLE SEATS LEFT: ${concert.seats}`}</Text>
                 </Stack>
               </CardBody>
             </Card>

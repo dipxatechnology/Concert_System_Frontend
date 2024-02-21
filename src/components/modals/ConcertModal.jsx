@@ -55,6 +55,7 @@ const ConcertModal = ({ isOpen, onClose }) => {
     price: "",
     description: "",
     venue: "",
+    seats: 0,
   });
   
   const handleAddGenre = () => {
@@ -94,6 +95,7 @@ const ConcertModal = ({ isOpen, onClose }) => {
           price: "",
           description: "",
           venue: "",
+          seats,
         });
 
         setGenre([]);
@@ -244,6 +246,16 @@ const ConcertModal = ({ isOpen, onClose }) => {
                 name="venue"
                 value={formData.venue}
                 onChange={(e) => setFormData({ ...formData, venue: e.target.value })}
+                required
+              />
+            </FormControl>
+            <FormControl mb="4">
+              <FormLabel>Number of Seats:</FormLabel>
+              <Input
+                type="number"
+                name="seats"
+                value={formData.seats}
+                onChange={(e) => setFormData({ ...formData, seats: e.target.value })}
                 required
               />
             </FormControl>

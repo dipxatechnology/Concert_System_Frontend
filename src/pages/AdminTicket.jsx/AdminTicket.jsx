@@ -72,6 +72,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
               <Th color="white">ID</Th>
               <Th color="white">Status</Th>
               <Th color="white">Concert</Th>
+              <Th color="white">Date</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -80,6 +81,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
                 <Td>{ticket._id}</Td>
                 <Td>{ticket.status}</Td>
                 <Td>{ticket.concert ? ticket.concert.title : "N/A"}</Td>
+                <Td>{ticket.date}</Td>
               </Tr>
             ))}
           </Tbody>

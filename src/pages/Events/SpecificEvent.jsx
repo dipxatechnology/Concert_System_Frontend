@@ -147,7 +147,7 @@ export default function SpecificEvent({ loading, setLoading }) {
                 />
                 <Text>{event.genre.map(toTitleCase).join(", ")}</Text>
               </Flex>
-
+              <Text>{`AVAILABLE SEATS : ${event.seats}`}</Text>
               <Divider margin="15px 0" />
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Text textAlign="center" maxWidth="60%">
@@ -174,8 +174,9 @@ export default function SpecificEvent({ loading, setLoading }) {
                   onChange={(e) =>
                     setSelectedQuantity(parseInt(e.target.value, 10))
                   }
+                  max={event.seats}
                 >
-                  {[...Array(11).keys()].map((num) => (
+                  {[...Array(event.seats + 1).keys()].map((num) => (
                     <option key={num}>{num}</option>
                   ))}
                 </Select>
@@ -188,6 +189,7 @@ export default function SpecificEvent({ loading, setLoading }) {
             marginTop="20px"
             _hover={{ bg: "brand.200" }}
             fontWeight="bold"
+            isDisabled={event.seats <= 0}
             onClick={handlePurchase}
           >
             Buy now
