@@ -46,7 +46,9 @@ export default function PurchaseDetails({ setLoading, loading }) {
     if (ticket) {
       const fetchArtist = async () => {
         try {
-          const response = await api.get(`/artists/${ticket.concert.artist}`);
+          const response = await api.get(
+            `/artists/${ticket.concert.artist._id}`
+          );
           setArtist(response.data);
           setLoading(false);
         } catch (error) {

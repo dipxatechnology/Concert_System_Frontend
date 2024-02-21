@@ -110,7 +110,7 @@ export default function Profile({ setLoading, loading }) {
             <Icon as={RiSearch2Line} boxSize="20px" />
           </InputLeftElement>
           <Input
-            placeholder="Search ticket"
+            placeholder="Search title"
             fontWeight="600"
             background="#333333"
             marginRight="2vh"

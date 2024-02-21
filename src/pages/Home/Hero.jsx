@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Container,
   Stack,
@@ -25,6 +24,7 @@ export default function Hero({ loggedIn }) {
         <Stack flex={1} spacing={{ base: 2, md: 5 }}>
           <Heading
             lineHeight={1.1}
+            mb="30px"
             fontWeight={600}
             fontSize={{ base: "3xl", sm: "4xl", lg: "6xl" }}
           >
@@ -45,13 +45,11 @@ export default function Hero({ loggedIn }) {
             >
               Book tickets anywhere, all in
             </Text>
-
             <Text as={"span"} color={"red.400"}>
               {" "}
               one place
             </Text>
           </Heading>
-          <Text color={"gray.500"}>Current Event</Text>
           <FeaturedCard />
           <Stack
             spacing={{ base: 4, sm: 6 }}
@@ -64,6 +62,8 @@ export default function Hero({ loggedIn }) {
               px={6}
               rightIcon={<ArrowForwardIcon h={4} w={4} color={"white"} />}
               colorScheme="red"
+              as={Link}
+              to={loggedIn ? "/events" : "/login"}
             >
               How It Works
             </Button>
