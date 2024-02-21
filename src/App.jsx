@@ -16,8 +16,15 @@ import TicketHistory from "./pages/TicketHistory";
 import PurchaseDetails from "./pages/Profile/PurchaseDetails";
 import Terms from "./pages/Terms";
 import Policy from "./pages/Policy";
+import AdminPage from "./pages/AdminUser";
+import AdminInfoPage from "./pages/AdminInfoPage";
+import AdminTicketInfoPage from "./pages/AdminTicketInfoPage";
+import AdminArtistInfoPage from "./pages/AdminArtistInfoPage";
+import AdminConcertInfoPage from "./pages/AdminConcertInfoPage";
 
 import "./App.css";
+import AdminFeedbackInfoPage from "./pages/AdminFeedbackInfoPage";
+
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -75,6 +82,12 @@ export default function App() {
         />
         <Route path="/terms" element={<Terms />} />
         <Route path="/policy" element={<Policy />} />
+        <Route path="/adminUser" element={<AdminPage setLoading={setLoading} />}/>
+        <Route path="/adminInfoPage/:id" element={<AdminInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/adminTicketInfoPage/:id" element={<AdminTicketInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminArtistInfoPage/:id" element={<AdminArtistInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminConcertInfoPage/:id" element={<AdminConcertInfoPage setLoading={setLoading} loading={loading} />}/>
+        <Route path="/AdminFeedbackInfoPage/:id" element={<AdminFeedbackInfoPage setLoading={setLoading} loading={loading} />}/>
       </Route>
     </Routes>
   );
