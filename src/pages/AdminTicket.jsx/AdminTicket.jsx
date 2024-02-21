@@ -16,9 +16,10 @@ import {
 import api from "../../api/api";
 
 const AdminTicketPage = ({ setLoading, navigate }) => {
-  const rowsPerPage = 10; 
+  const rowsPerPage = 10;
   const [ticketResponse, setTicketResponse] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refreshData, setRefreshData] = useState(false);
 
   useEffect(() => {
     const fetchTickets = async () => {
@@ -33,7 +34,11 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
     };
 
     fetchTickets();
-  }, [ticketResponse]);
+  }, [refreshData]);
+
+  const handleRefresh = () => {
+    setRefreshData((prev) => !prev);
+  };
 
   // Calculate total number of pages
   const totalPages = Math.ceil(ticketResponse.length / rowsPerPage);
@@ -50,13 +55,16 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
   };
 
   const handleRowClick = (id) => {
-    navigate(`/adminTicketInfoPage/${id}`)
-    setLoading(true)
+    navigate(`/adminTicketInfoPage/${id}`);
+    setLoading(true);
   };
 
   return (
     <ChakraProvider>
       <Box p="4">
+        <Button onClick={handleRefresh} mb="4">
+          Refresh Data
+        </Button>
         <Table variant="simple" colorScheme="white" color="white">
           <TableCaption>Admin Ticket</TableCaption>
           <Thead>
@@ -71,7 +79,7 @@ const AdminTicketPage = ({ setLoading, navigate }) => {
               <Tr key={ticket._id} onClick={() => handleRowClick(ticket._id)}>
                 <Td>{ticket._id}</Td>
                 <Td>{ticket.status}</Td>
-                <Td>{ticket.concert.title}</Td>
+                <Td>{ticket.concert ? ticket.concert.title : "N/A"}</Td>
               </Tr>
             ))}
           </Tbody>
