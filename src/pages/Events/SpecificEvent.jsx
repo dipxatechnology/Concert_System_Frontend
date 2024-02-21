@@ -10,23 +10,21 @@ import {
   CardBody,
   Divider,
   Select,
-  Button,
-  useToast,
 } from "@chakra-ui/react";
 import { CalendarIcon } from "@chakra-ui/icons";
 import { FaTicket, FaLocationDot, FaMusic } from "react-icons/fa6";
 import api from "../../api/api";
-import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import PaymentModal from "../../components/modals/PaymentModal";
 import "./events.css";
 
 export default function SpecificEvent({ loading, setLoading }) {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const toast = useToast();
-  const [error, setError] = useState(null);
-  const [event, setEvent] = useState(null);
+  const [error, setError] = useState("");
+  const [event, setEvent] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(0);
+
+  console.log(selectedQuantity);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -46,54 +44,13 @@ export default function SpecificEvent({ loading, setLoading }) {
   if (!event && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  const handlePurchase = async () => {
-    try {
-      const currentDate = new Date().toISOString();
-
-      const userObject = JSON.parse(localStorage.getItem("userData"));
-
-      const userId = userObject?._id;
-      const concertId = event._id;
-
-      const ticketData = {
-        status: "Completed",
-        quantity: selectedQuantity,
-        user: userId,
-        concert: concertId,
-        date: currentDate,
-      };
-
-      await api.post("/tickets", ticketData);
-
-      navigate("/events");
-
-      toast({
-        title: "Succesfully Purchased.",
-        description: "Thank you for purchasing from us.",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-    } catch (error) {
-      console.error("An error occurred:", error.message);
-
-      toast({
-        title: "Error.",
-        description: "An Error Occured.",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-    }
-  };
-
   function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
+
+  console.log(event);
 
   return (
     <div className="event-style">
@@ -147,7 +104,16 @@ export default function SpecificEvent({ loading, setLoading }) {
                 />
                 <Text>{event.genre.map(toTitleCase).join(", ")}</Text>
               </Flex>
-              <Text>{`AVAILABLE SEATS : ${event.seats}`}</Text>
+              <Flex
+                justifyContent="center"
+                alignItems="center"
+                marginTop="30px"
+              >
+                <Text fontWeight="600" marginRight="10px">
+                  Tickets Available :{" "}
+                </Text>
+                <Text>{event.seats}</Text>
+              </Flex>
               <Divider margin="15px 0" />
               <Box display="flex" alignItems="center" justifyContent="center">
                 <Text textAlign="center" maxWidth="60%">
@@ -183,17 +149,7 @@ export default function SpecificEvent({ loading, setLoading }) {
               </Flex>
             </CardBody>
           </Card>
-          <Button
-            bg="brand.100"
-            width="80%"
-            marginTop="20px"
-            _hover={{ bg: "brand.200" }}
-            fontWeight="bold"
-            isDisabled={event.seats <= 0}
-            onClick={handlePurchase}
-          >
-            Buy now
-          </Button>
+          <PaymentModal event={event} selectedQuantity={selectedQuantity} />
         </Stack>
       </Box>
     </div>

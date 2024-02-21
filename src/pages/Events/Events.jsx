@@ -128,7 +128,6 @@ export default function Events({ setLoading, loading }) {
                     <Text>RM{concert.price} </Text>
                     <Spacer />
                   </Flex>
-                    <Text>{`AVAILABLE SEATS LEFT: ${concert.seats}`}</Text>
                 </Stack>
               </CardBody>
             </Card>
