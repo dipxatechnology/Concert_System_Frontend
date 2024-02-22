@@ -1,9 +1,7 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import api from "../../api/api";
-
 import {
   Text,
   Box,
@@ -24,6 +22,7 @@ export default function Login({ setLoggedIn, loggedIn }) {
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
   const toast = useToast();
   const handleClick = () => setShow(!show);
@@ -33,6 +32,7 @@ export default function Login({ setLoggedIn, loggedIn }) {
       const loginData = {
         username,
         password,
+        rememberMe,
       };
       console.log(loginData);
 
@@ -40,11 +40,15 @@ export default function Login({ setLoggedIn, loggedIn }) {
       const response = await api.post("/auth", loginData);
 
       // Extract the token and user data from the response
-      const { accessToken, userData } = response.data;
+      const { accessToken, userData, refreshToken } = response.data;
 
       // Store the token and user data in a secure manner (e.g., in cookies or local storage)
       Cookies.set("accessToken", accessToken, { expires: 1 });
       localStorage.setItem("userData", JSON.stringify(userData));
+
+      if (rememberMe) {
+        Cookies.set("jwt", refreshToken, { expires: 7 });
+      }
 
       // Set the setLoggedIn to true
       setLoggedIn(true);
@@ -72,6 +76,42 @@ export default function Login({ setLoggedIn, loggedIn }) {
       });
     }
   };
+
+  useEffect(() => {
+    const autoLogin = async () => {
+      const refreshToken = Cookies.get("jwt");
+  
+      if (refreshToken) {
+        try {
+          const response = await api.get("/auth/refresh", {
+            withCredentials: true,
+          });
+          const newAccessToken = response.data.accessToken;
+          const userData = response.data.userData
+  
+          // Uncomment the line below if you want to auto-log in the user
+          Cookies.set("accessToken", newAccessToken, { expires: 1 });
+          localStorage.setItem("userData", JSON.stringify(userData))
+          setLoggedIn(true);
+  
+          toast({
+            title: "Auto-Logged In.",
+            description: "Welcome back.",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+            position: "bottom-right",
+          });
+  
+          navigate("/");
+        } catch (error) {
+          console.error("Auto-Login failed:", error.message);
+        }
+      }
+    };
+  
+    autoLogin();
+  }, []);
 
   return (
     <div
@@ -135,7 +175,15 @@ export default function Login({ setLoggedIn, loggedIn }) {
                 )}
               </InputRightElement>
             </InputGroup>
-            <Checkbox size="lg" colorScheme="red" color="grey" marginTop="20px">
+            <Checkbox
+              size="lg"
+              colorScheme="red"
+              color="grey"
+              marginTop="20px"
+              onChange={() => {
+                setRememberMe((prevRememberMe) => !prevRememberMe);
+              }}
+            >
               Remember me
             </Checkbox>
             <Button
