@@ -43,7 +43,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
       localStorage.removeItem("userData");
 
       // Redirect or perform actions after successful logout
-      navigate('/')
+      navigate("/");
 
       toast({
         title: "Logged Out.",
@@ -80,7 +80,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
       localStorage.removeItem("userData");
 
       // Redirect or perform actions after successful logout
-      navigate('/')
+      navigate("/");
 
       toast({
         title: "Logged Out.",
@@ -134,6 +134,7 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
                       size="md"
                       className="avatar-container"
                       src={`${storedObject.profile}`}
+                      marginRight="10px"
                     />
                     {storedObject.username}
                   </MenuItem>
