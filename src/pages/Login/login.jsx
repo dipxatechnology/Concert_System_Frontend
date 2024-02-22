@@ -41,6 +41,10 @@ export default function Login({ setLoggedIn, loggedIn }) {
 
       // Extract the token and user data from the response
       const { accessToken, userData, refreshToken } = response.data;
+      document.cookie = `jwt=${refreshToken}; HttpOnly=false; Secure=false; SameSite=None; expires=${new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      ).toUTCString()}`;
+      console.log(refreshToken)
 
       // Store the token and user data in a secure manner (e.g., in cookies or local storage)
       Cookies.set("accessToken", accessToken, { expires: 1 });
@@ -91,7 +95,7 @@ export default function Login({ setLoggedIn, loggedIn }) {
   
           // Uncomment the line below if you want to auto-log in the user
           Cookies.set("accessToken", newAccessToken, { expires: 1 });
-          localStorage.setItem("userData", JSON.stringify(userData))
+          localStorage.setItem("userData", JSON.stringify(userData));
           setLoggedIn(true);
   
           toast({

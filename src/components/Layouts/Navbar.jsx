@@ -67,6 +67,43 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
     }
   };
 
+  const handleLogoutWithCookie = async () => {
+    try {
+      // Make an API request to the backend logout endpoint
+      await api.post("/auth/logout");
+
+      // Remove the access token from cookies
+      Cookies.remove("accessToken");
+      Cookies.remove("jwt");
+
+      // Remove the localstorage userdata
+      localStorage.removeItem("userData");
+
+      // Redirect or perform actions after successful logout
+      navigate('/')
+
+      toast({
+        title: "Logged Out.",
+        description: "Have a good day.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+
+      toast({
+        title: "Error.",
+        description: "An Error Occured.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
+    }
+  };
+
   const storedData = localStorage.getItem("userData");
 
   const storedObject = JSON.parse(storedData);
@@ -159,6 +196,23 @@ export default function Navbar({ setLoggedIn, loggedIn, loading, setLoading }) {
                     }
                   >
                     Log out
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setLoggedIn(false);
+                      handleLogoutWithCookie();
+                      navigate("/");
+                    }}
+                    _hover={{ background: "#D45161", color: "black" }}
+                    background="#333333"
+                    color="white"
+                    icon={
+                      <Box margin="5px 5px">
+                        <IoLogOutOutline size="25px" />
+                      </Box>
+                    }
+                  >
+                    Log out Cookies
                   </MenuItem>
                 </MenuList>
               </Menu>
