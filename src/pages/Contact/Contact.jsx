@@ -6,19 +6,24 @@ import {
   Button,
   HStack,
   Textarea,
+  useToast,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 
 import './contact.css';
 import { useState } from 'react';
 import api from '../../api/api';
+import { useNavigate } from 'react-router-dom';
 
 function ContactUs() {
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const toast = useToast();
+  const navigate = useNavigate();
 
-  const handleFeedback = async () => {
+  const handleFeedback = async (e) => {
+    e.preventDefault();
     try {
       const feedbackData = {
         username,
@@ -28,7 +33,16 @@ function ContactUs() {
 
       await api.post("/feedbacks", feedbackData)
 
-      // event.preventDefault;
+      navigate("/")
+      
+      toast({
+        title: "Message/FeedBack Received.",
+        description: "Thank you for your message.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom-right",
+      });
     } catch (error) {
       console.error("feedback error: ", error.message);
     }
@@ -85,10 +99,7 @@ function ContactUs() {
           marginTop='30px'
           _hover={{ bg: 'brand.200' }}
           fontWeight='bold'
-          onClick={() => {
-            handleFeedback();
-            
-          }}
+          onClick={handleFeedback}
         >
           Send Message {<ArrowForwardIcon boxSize={6} paddingLeft='10px' paddingTop='4px'/>}
         </Button>

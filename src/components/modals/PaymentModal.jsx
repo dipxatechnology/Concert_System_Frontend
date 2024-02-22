@@ -133,8 +133,6 @@ function PaymentModal({ event, selectedQuantity }) {
     }
   };
 
-  console.log(selectedQuantity);
-
   return (
     <>
       <Button

@@ -34,7 +34,6 @@ export default function Login({ setLoggedIn, loggedIn }) {
         password,
         rememberMe,
       };
-      console.log(loginData);
 
       // Make an API request to authenticate the user and obtain a token
       const response = await api.post("/auth", loginData);
@@ -44,7 +43,6 @@ export default function Login({ setLoggedIn, loggedIn }) {
       document.cookie = `jwt=${refreshToken}; HttpOnly=false; Secure=false; SameSite=None; expires=${new Date(
         Date.now() + 7 * 24 * 60 * 60 * 1000
       ).toUTCString()}`;
-      console.log(refreshToken)
 
       // Store the token and user data in a secure manner (e.g., in cookies or local storage)
       Cookies.set("accessToken", accessToken, { expires: 1 });

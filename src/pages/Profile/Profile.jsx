@@ -100,7 +100,6 @@ export default function Profile({ setLoading, loading }) {
     });
   }
 
-  console.log(filteredEvents);
 
   if (!userProfile && loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;

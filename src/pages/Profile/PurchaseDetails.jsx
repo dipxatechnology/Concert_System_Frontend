@@ -67,9 +67,6 @@ export default function PurchaseDetails({ setLoading, loading }) {
   if (!artist) return <p>Loading...</p>;
   if (!ticket) return <p>Loading...</p>;
 
-  console.log(ticket);
-  console.log(artist);
-
   function toTitleCase(str) {
     return str.replace(/\w\S*/g, function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();

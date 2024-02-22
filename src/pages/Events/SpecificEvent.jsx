@@ -24,8 +24,6 @@ export default function SpecificEvent({ loading, setLoading }) {
   const [event, setEvent] = useState("");
   const [selectedQuantity, setSelectedQuantity] = useState(0);
 
-  console.log(selectedQuantity);
-
   useEffect(() => {
     const fetchEvent = async () => {
       try {
@@ -49,8 +47,6 @@ export default function SpecificEvent({ loading, setLoading }) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
   }
-
-  console.log(event);
 
   return (
     <div className="event-style">

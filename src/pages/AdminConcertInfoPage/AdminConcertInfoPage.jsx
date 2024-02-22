@@ -92,7 +92,6 @@ const AdminConcertInfoPage = ({ setLoading, loading }) => {
         venue: venue,
         seats,
       };
-      console.log(updatedData)
 
       await api.patch(`/concerts`, updatedData);
 
