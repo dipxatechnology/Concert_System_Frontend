@@ -1,0 +1,9 @@
+.container {
+  color: white;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  margin-top: 7vh;
+}

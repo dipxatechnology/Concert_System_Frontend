@@ -1,0 +1,8 @@
+.signup-style {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  color: white;
+}

@@ -1,0 +1,7 @@
+.about-style {
+    margin: 0 20vh;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

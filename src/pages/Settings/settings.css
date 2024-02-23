@@ -1,0 +1,20 @@
+.container {
+  color: white;
+}
+
+.box {
+  display: flex;
+  justify-content: center;
+  margin-top: 4vh;
+}
+
+.box-diff-margin {
+  display: flex;
+  justify-content: center;
+  margin-top: 3vh;
+}
+
+.internal-box {
+  width: 40%;
+  max-width: 350px;
+}
