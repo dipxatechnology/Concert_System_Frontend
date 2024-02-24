@@ -185,7 +185,7 @@ export default function Settings() {
 
       toast({
         title: "User Info Updated.",
-        description: "Hope you like your new look.",
+        description: "If your lastName is empty remember to add a white space at the end of your username",
         status: "success",
         duration: 3000,
         isClosable: true,
