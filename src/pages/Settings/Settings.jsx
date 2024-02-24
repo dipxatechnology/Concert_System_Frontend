@@ -119,13 +119,13 @@ export default function Settings() {
     const id = newUserData._id;
     let updateData = {
       id,
-      ...(username && { username }),
-      ...(phone_number && { phone_number }),
-      ...(address && { address }),
-      ...(postcode && { postcode }),
-      ...(country && { country }),
-      ...(email && { email }),
-      ...(profile && { profile }),
+      username,
+      phone_number,
+      address,
+      postcode,
+      country,
+      email,
+      profile,
     };
 
     try {
