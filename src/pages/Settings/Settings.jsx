@@ -58,6 +58,7 @@ export default function Settings() {
   const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
+  const [roles, setRoles] = useState([]);
 
   useEffect(() => {
     setUsername(`${firstName} ${lastName}`);
@@ -76,6 +77,7 @@ export default function Settings() {
         setAddress(response.data.address);
         setPostCode(response.data.postcode);
         setCountry(response.data.country);
+        setRoles(response.data.roles)
       } catch (error) {
         console.error("Error:", error);
       }
@@ -126,6 +128,7 @@ export default function Settings() {
       country,
       email,
       profile,
+      roles,
     };
 
     try {
@@ -136,24 +139,25 @@ export default function Settings() {
           username: currentUsername,
           password: oldPassword,
         });
-
+        
         // If the old password is incorrect, the API should return an error
         if (response.error) {
           console.error("Old password is incorrect.");
           return;
         }
-
+        
         // Check if the new password and the confirmation password match
         if (password === secondPassword) {
           updateData = { ...updateData, password };
+          console.log(updateData)
         } else {
           console.error("New passwords do not match.");
           return;
         }
       }
-
+      
       await api.patch("/users", updateData);
-
+      
       const signUpResponse = await api.post("/auth", {
         username: updateData.username,
         password: updateData.password,
@@ -185,7 +189,8 @@ export default function Settings() {
 
       toast({
         title: "User Info Updated.",
-        description: "If your lastName is empty remember to add a white space at the end of your username",
+        description:
+          "If your lastName is empty remember to add a white space at the end of your username",
         status: "success",
         duration: 3000,
         isClosable: true,

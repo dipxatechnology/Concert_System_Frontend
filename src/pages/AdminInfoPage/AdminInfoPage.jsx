@@ -54,8 +54,12 @@ const AdminInfoPage = ({ setLoading, loading }) => {
       setPostcode(backendData.postcode || "");
       setCountry(backendData.country || "");
       setPassword(backendData.password || "");
-      setTickets(backendData.ticket.map((ticket) => ticket._id).join(", "));
-      setDate(backendData.ticket.map((ticket) => ticket.date).join(", "));
+      if (backendData && backendData.ticket && Array.isArray(backendData.ticket)) {
+        setTickets(backendData.ticket.map((ticket) => ticket._id).join(", "));
+      }
+      if (backendData && backendData.ticket && Array.isArray(backendData.ticket)) {
+      setDate(backendData.ticket.map((ticket) => ticket.date).join(", ") || []);
+      }
     }
   }, [backendData]);
 
@@ -82,6 +86,10 @@ const AdminInfoPage = ({ setLoading, loading }) => {
     }
   };
 
+  const handleRolesChange = (value) => {
+    setRoles(value.split(", "));
+  };
+
   const handleSaveChanges = async () => {
     try {
       const updatedData = {
@@ -95,9 +103,12 @@ const AdminInfoPage = ({ setLoading, loading }) => {
         postcode: postcode,
         country: country,
         password: password,
-        ticket: tickets,
+        ticket: tickets && typeof tickets === 'string' ? tickets.split(",") : [],
       };
-
+      const existingUserData = JSON.parse(localStorage.getItem("userData")) || {};
+      existingUserData.roles = updatedData.roles;
+      localStorage.setItem("userData", JSON.stringify(existingUserData));
+      
       await api.patch(`/users`, updatedData);
 
       // fetch the updated data after saving
@@ -140,7 +151,7 @@ const AdminInfoPage = ({ setLoading, loading }) => {
           <Input
             color="white"
             value={roles.join(", ")}
-            onChange={(e) => setRoles(e.target.value.split(", "))}
+            onChange={(e) => handleRolesChange(e.target.value)}
             mb="2"
           />
           <Text color="white">Profile</Text>
