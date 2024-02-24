@@ -78,11 +78,14 @@ const AdminPage = ({ setLoading }) => {
     const emailMatch = user.email
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
-    const rolesMatch = user.roles.some((role) =>
-      role.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    if (user.roles && Array.isArray(user.roles)) {
+      user.roles.some((role) =>
+        role.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    } else {
+    }
 
-    return usernameMatch || emailMatch || rolesMatch;
+    return usernameMatch || emailMatch;
   });
 
   const startingPage = currentPage;
