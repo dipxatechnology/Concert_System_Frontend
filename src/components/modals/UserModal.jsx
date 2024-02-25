@@ -120,7 +120,7 @@ const UserModal = ({ isOpen, onClose }) => {
             </FormControl>
             <FormControl mb="4">
               <FormLabel>Roles:</FormLabel>
-              <Select onChange={(e) => setRoles([e.target.value])} required>
+              <Select placeholder="select one" onChange={(e) => setRoles([e.target.value])} required>
                 <option value="User">User</option>
                 <option value="Admin">Admin</option>
               </Select>
