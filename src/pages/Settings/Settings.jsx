@@ -59,6 +59,8 @@ export default function Settings() {
   const [password, setPassword] = useState("");
   const [secondPassword, setSecondPassword] = useState("");
   const [roles, setRoles] = useState([]);
+  const [date, setDate] = useState("");
+  const [tickets, setTickets] = useState([]);
 
   useEffect(() => {
     setUsername(`${firstName} ${lastName}`);
@@ -78,6 +80,12 @@ export default function Settings() {
         setPostCode(response.data.postcode);
         setCountry(response.data.country);
         setRoles(response.data.roles)
+        if (response.data && response.data.ticket && Array.isArray(response.data.ticket)) {
+          setTickets(response.data.ticket.map((ticket) => ticket._id).join(", "));
+        }
+        if (response.data && response.data.ticket && Array.isArray(response.data.ticket)) {
+        setDate(response.data.ticket.map((ticket) => ticket.date).join(", ") || []);
+        }
       } catch (error) {
         console.error("Error:", error);
       }
@@ -120,7 +128,7 @@ export default function Settings() {
     e.preventDefault();
     const id = newUserData._id;
     let updateData = {
-      id,
+      id : id,
       username,
       phone_number,
       address,
@@ -129,6 +137,7 @@ export default function Settings() {
       email,
       profile,
       roles,
+      ticket: tickets && typeof tickets === 'string' ? tickets.split(", ") : [],
     };
 
     try {
@@ -149,18 +158,18 @@ export default function Settings() {
         // Check if the new password and the confirmation password match
         if (password === secondPassword) {
           updateData = { ...updateData, password };
-          console.log(updateData)
         } else {
           console.error("New passwords do not match.");
-          return;
+          throw new Error("New passwords do not match.");
         }
       }
       
       await api.patch("/users", updateData);
+      console.log(updateData, "update data")
       
       const signUpResponse = await api.post("/auth", {
         username: updateData.username,
-        password: updateData.password,
+        password: password,
       });
 
       const { accessToken, userData } = signUpResponse.data;

@@ -26,6 +26,33 @@ const AdminInfoPage = ({ setLoading, loading }) => {
   const [date, setDate] = useState("");
   const [tickets, setTickets] = useState([]);
   const [password, setPassword] = useState("");
+  const [updatedData, setUpdatedData] = useState({
+    id: id,
+    username: userName,
+    roles: roles,
+    profile: profile,
+    phone_number: phoneNumber,
+    email: Email,
+    address: address,
+    postcode: postcode,
+    country: country,
+    ticket: tickets && typeof tickets === "string" ? tickets.split(", ") : [],
+  });
+
+  useEffect(() => {
+    setUpdatedData({
+      id: id,
+      username: userName,
+      roles: roles,
+      profile: profile,
+      phone_number: phoneNumber,
+      email: Email,
+      address: address,
+      postcode: postcode,
+      country: country,
+      ticket: tickets && typeof tickets === "string" ? tickets.split(", ") : [],
+    });
+  }, [userName, roles, profile, phoneNumber, Email, address, postcode, country, tickets]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,11 +81,21 @@ const AdminInfoPage = ({ setLoading, loading }) => {
       setPostcode(backendData.postcode || "");
       setCountry(backendData.country || "");
       setPassword(backendData.password || "");
-      if (backendData && backendData.ticket && Array.isArray(backendData.ticket)) {
+      if (
+        backendData &&
+        backendData.ticket &&
+        Array.isArray(backendData.ticket)
+      ) {
         setTickets(backendData.ticket.map((ticket) => ticket._id).join(", "));
       }
-      if (backendData && backendData.ticket && Array.isArray(backendData.ticket)) {
-      setDate(backendData.ticket.map((ticket) => ticket.date).join(", ") || []);
+      if (
+        backendData &&
+        backendData.ticket &&
+        Array.isArray(backendData.ticket)
+      ) {
+        setDate(
+          backendData.ticket.map((ticket) => ticket.date).join(", ") || []
+        );
       }
     }
   }, [backendData]);
@@ -91,25 +128,17 @@ const AdminInfoPage = ({ setLoading, loading }) => {
   };
 
   const handleSaveChanges = async () => {
-    try {
-      const updatedData = {
-        id: id,
-        username: userName,
-        roles: roles,
-        profile: profile,
-        phone_number: phoneNumber,
-        email: Email,
-        address: address,
-        postcode: postcode,
-        country: country,
-        password: password,
-        ticket: tickets && typeof tickets === 'string' ? tickets.split(",") : [],
-      };
-      const existingUserData = JSON.parse(localStorage.getItem("userData")) || {};
+    try {   
+      // Update existingUserData in localStorage
+      const existingUserData =
+        JSON.parse(localStorage.getItem("userData")) || {};
       existingUserData.roles = updatedData.roles;
+      existingUserData.profile = updatedData.profile;
+      existingUserData.username = updatedData.username;
       localStorage.setItem("userData", JSON.stringify(existingUserData));
-      
-      await api.patch(`/users`, updatedData);
+
+
+      await api.patch(`/adminUpdate`, updatedData);
 
       // fetch the updated data after saving
       const response = await api.get(`/users/${id}`);
