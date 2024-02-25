@@ -12,6 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { RiFilter2Fill } from "react-icons/ri";
+import { AnimCursor } from "../AnimCursor";
 
 function FilterModal({ allEvents, setFilter }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -56,6 +57,7 @@ function FilterModal({ allEvents, setFilter }) {
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
+          <AnimCursor />
           <ModalHeader>Filter Events</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
